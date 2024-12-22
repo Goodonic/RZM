@@ -6,11 +6,12 @@ import {addNewNOM, getAllNOMID, getNOMByID} from '../../../public/scripts/fireba
 import { CommonModule } from '@angular/common';
 import {ImgService} from '../services/firebase/img/img.service';
 import { FormsModule } from '@angular/forms';
+import {Router} from '@angular/router';
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
 @Component({
   selector: 'app-admin',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -37,7 +38,8 @@ export class AdminComponent {
   constructor(private initBD: InitBDService,
               private nom: NOMService,
               private grupp: GroupService,
-              private imgService:ImgService
+              private imgService:ImgService,
+
 
   ) {
   }
