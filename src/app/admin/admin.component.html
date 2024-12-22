@@ -1,0 +1,118 @@
+<div>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Название</th>
+      <th>Группа</th>
+      <th>Подгруппа</th>
+      <th>Изготовитель</th>
+      <th>Доступность</th>
+      <th>Цена</th>
+      <th>Изображение</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of allNOM">
+        <td>{{product.id}}</td>
+        <td>{{product.name_nom}}</td>
+<!--        <td>{{product.grupp_nom}}</td>-->
+<!--        <td><select (select)="product.grupp_nom" name="Группа" [value]="product.grupp_nom">-->
+<!--          <option  *ngFor="let group of Object.keys(this.allGroups)" selected="{{group==product.grupp_nom ? 'selected' : null}}">-->
+<!--            {{group }}-->
+<!--          </option>-->
+<!--          <option>-->
+<!--            Добавить-->
+<!--          </option>-->
+<!--        </select> </td>-->
+        <td>{{ product.grupp_nom }}</td>
+        <td>{{ product.podgrupp_nom }}</td>
+        <td>РЖД</td>
+        <td *ngIf="product.available_nom !='0'">Да</td>
+        <td *ngIf="product.available_nom =='0'">Нет</td>
+        <td>{{product.cash_nom}}</td>
+        <td><img src="{{product.frontpic_nom}}" alt="Image"></td>
+        <td><label>Редактировать</label></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--<div>-->
+<!--  <input-->
+<!--    type="file"-->
+<!--    accept="image/*"-->
+<!--    multiple-->
+<!--    class="form-control-file"-->
+<!--    (change)="onFileSelected($event)"-->
+<!--  />-->
+<!--</div>-->
+<!--<div>Добавить товар</div>-->
+<!--<div>-->
+<!--  <div *ngFor="let image of images">-->
+<!--    <img src="{{image}}">-->
+<!--    <b>{{image }}</b>-->
+<!--  </div>-->
+<!--  <button (click)="addNOMImage(allNOMID[0], images[0])">Добавить изображение</button>-->
+<!--</div>-->
+<td></td>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Название</th>
+    <th>Группа</th>
+    <th>Подгруппа</th>
+    <th>Размер</th>
+    <th>Изготовитель</th>
+    <th>Доступность</th>
+    <th>Цена</th>
+    <th>Изображение</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Авто</td>
+    <td><input [(ngModel)]="newNOM.name_nom" type="text"></td>
+    <td><select name="Группа" [(ngModel)]="newNOM.grupp_nom" (change)="getPodGroupsByGroup(newNOM.grupp_nom)">>
+      <option value="" selected disabled hidden>Выбрать</option>
+      <option *ngFor="let group of Object.keys(this.allGroups)" >
+        {{group}}
+      </option>
+    </select>
+    </td>
+<!--    allGroups[product.grupp_nom]-->
+    <td>
+      <select name="Подгруппа" [(ngModel)]="newNOM.podgrupp_nom">>
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of podGroupsByGroup" >
+          {{group}}
+        </option>
+      </select>
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.scale_nom" type="text">
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.bodymaid_nom" type="text">
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.available_nom" type="number">
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.cash_nom" type="number">
+    </td>
+    <td>
+      <input  type="file"
+             id="fileInput"
+             accept="image/*"
+              multiple
+             (change)="onFileSelected($event)">
+    </td>
+    <td>
+      <button (click)="addNewNOM(newNOM)">Добавить</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

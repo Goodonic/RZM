@@ -1,0 +1,17 @@
+.navbar-brand {
+  font-weight: bold;
+  color: #333;
+}
+
+.nav-link {
+  color: #555 !important;
+}
+
+.nav-link:hover {
+  color: #000 !important;
+}
+
+.fa-user,
+.fa-shopping-cart {
+  margin-right: 5px;
+}
