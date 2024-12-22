@@ -51,16 +51,17 @@ export class AdminComponent {
 
             let product = this.toJSON(data)
             product.id = id
-            let groupRef = product.grupp_nom._delegate._key.path.segments
-            this.getGroupByRef(groupRef).then((data)=>{
-              product.grupp_nom = this.toJSON(data).grupp
-              let podgroupRef = product.podgrupp_nom._delegate._key.path.segments
-              this.getGroupByRef(podgroupRef).then((data)=>{
-                product.podgrupp_nom = this.toJSON(data).name_podgrupp
-
-                this.allNOM.push(product)
-              })
-            })
+            // let groupRef = product.grupp_nom._delegate._key.path.segments
+            // this.getGroupByRef(groupRef).then((data)=>{
+            //   product.grupp_nom = this.toJSON(data).grupp
+            //   let podgroupRef = product.podgrupp_nom._delegate._key.path.segments
+            //   this.getGroupByRef(podgroupRef).then((data)=>{
+            //     // product.podgrupp_nom = this.toJSON(data).name_podgrupp
+            //
+            //     this.allNOM.push(product)
+            //   })
+            // })
+            this.allNOM.push(product)
           })
 
         })
