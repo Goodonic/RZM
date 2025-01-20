@@ -17,3 +17,17 @@ img {
   max-width: 50px;
   height: auto;
 }
+
+mat-form-field {
+  width: 300px;
+}
+
+.visible{
+
+}
+
+.hidden:not(.visible) {
+  display: none;
+}
+
+

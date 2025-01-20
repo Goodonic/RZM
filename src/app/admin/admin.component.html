@@ -1,9 +1,68 @@
+<!--Поиск-->
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Название</th>
+    <th>Тип</th>
+    <th>Группа</th>
+    <th>Подгруппа</th>
+    <th>Размер</th>
+    <th>Изготовитель</th>
+    <th>Доступность</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Авто</td>
+    <td><input [(ngModel)]="filterObj.name_nom" type="text"></td>
+    <td><select name="Группа">
+      <option value="" selected disabled hidden>Выбрать</option>
+      <option  >
+        тип1
+      </option>
+    </select>
+    </td>
+    <td><select name="Группа" [(ngModel)]="filterObj.grupp_nom" (change)="getPodGroupsByGroup(filterObj.grupp_nom, 'F')">>
+      <option value="" selected disabled hidden>Выбрать</option>
+      <option *ngFor="let group of Object.keys(this.allGroups)" >
+        {{group}}
+      </option>
+    </select>
+    </td>
+    <!--    allGroups[product.grupp_nom]-->
+    <td>
+      <select name="Подгруппа" [(ngModel)]="filterObj.podgrupp_nom">>
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of Object.keys(filterPodGroups)" >
+          {{group}}
+        </option>
+      </select>
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.scale_nom" type="text">
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.bodymaid_nom" type="text">
+    </td>
+    <td>
+      <input [(ngModel)]="newNOM.available_nom" type="number">
+    </td>
+    <td>
+      <button (click)="reserFilter()"> Сброс</button>
+    </td>
+  </tr>
+
+  </tbody>
+</table>
 <div>
   <table>
     <thead>
     <tr>
       <th>ID</th>
       <th>Название</th>
+      <th>Тип изделия</th>
       <th>Группа</th>
       <th>Подгруппа</th>
       <th>Изготовитель</th>
@@ -13,28 +72,24 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of allNOM">
+      <tr *ngFor="let product of allNOM"
+          [class.hidden]="product.grupp_nom != filterObj.grupp_nom || product.podgrupp_nom != filterObj.podgrupp_nom"
+          [class.visible]="!emptyFilter() "
+      >
         <td>{{product.id}}</td>
+
         <td>{{product.name_nom}}</td>
-<!--        <td>{{product.grupp_nom}}</td>-->
-<!--        <td><select (select)="product.grupp_nom" name="Группа" [value]="product.grupp_nom">-->
-<!--          <option  *ngFor="let group of Object.keys(this.allGroups)" selected="{{group==product.grupp_nom ? 'selected' : null}}">-->
-<!--            {{group }}-->
-<!--          </option>-->
-<!--          <option>-->
-<!--            Добавить-->
-<!--          </option>-->
-<!--        </select> </td>-->
-<!--        <td>{{ product.grupp_nom }}</td>-->
-<!--        <td>{{ product.podgrupp_nom }}</td>-->
-        <td>Заглушка</td>
-        <td>Заглушка</td>
+        <td>Тип</td>
+        <td>{{product.grupp_nom}}</td>
+        <td>{{ product.podgrupp_nom }}</td>
+<!--        <td>Заглушка</td>-->
+<!--        <td>Заглушка</td>-->
         <td>РЖД</td>
         <td *ngIf="product.available_nom !='0'">Да</td>
         <td *ngIf="product.available_nom =='0'">Нет</td>
         <td>{{product.cash_nom}}</td>
         <td><img src="{{product.frontpic_nom}}" alt="Image"></td>
-        <td><label>Редактировать</label></td>
+
       </tr>
     </tbody>
   </table>
@@ -63,6 +118,7 @@
   <tr>
     <th>ID</th>
     <th>Название</th>
+    <th>Тип</th>
     <th>Группа</th>
     <th>Подгруппа</th>
     <th>Размер</th>
@@ -77,7 +133,14 @@
   <tr>
     <td>Авто</td>
     <td><input [(ngModel)]="newNOM.name_nom" type="text"></td>
-    <td><select name="Группа" [(ngModel)]="newNOM.grupp_nom" (change)="getPodGroupsByGroup(newNOM.grupp_nom)">>
+    <td><select name="Группа">
+      <option value="" selected disabled hidden>Выбрать</option>
+      <option  >
+        тип1
+      </option>
+    </select>
+    </td>
+    <td><select name="Группа" [(ngModel)]="newNOM.grupp_nom" (change)="getPodGroupsByGroup(newNOM.grupp_nom, 'N')">>
       <option value="" selected disabled hidden>Выбрать</option>
       <option *ngFor="let group of Object.keys(this.allGroups)" >
         {{group}}
@@ -88,7 +151,7 @@
     <td>
       <select name="Подгруппа" [(ngModel)]="newNOM.podgrupp_nom">>
         <option value="" selected disabled hidden>Выбрать</option>
-        <option *ngFor="let group of podGroupsByGroup" >
+        <option *ngFor="let group of Object.keys(podGroupsByGroup)" >
           {{group}}
         </option>
       </select>
@@ -118,3 +181,4 @@
   </tr>
   </tbody>
 </table>
+

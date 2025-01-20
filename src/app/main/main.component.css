@@ -4,3 +4,93 @@
   justify-content: center;
   gap: 20px;
 }
+
+/* Общие стили */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f4f4f4;
+}
+
+.container {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 90lvh;
+  max-width: 1200px;
+  margin: 20px;
+}
+
+/* Боковая панель */
+.sidebar {
+  width: 250px;
+  background-color: #a15959;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section h3 {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.filter-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.filter-section ul li {
+  margin-bottom: 10px;
+}
+
+.filter-section ul li label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #000000;
+}
+
+.filter-section ul li input {
+  margin-right: 10px;
+}
+
+.slider {
+  width: 100%;
+}
+
+/* Основной контент */
+.content {
+  flex-grow: 1;
+  background-color: #5d5858;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.content h1 {
+  margin-top: 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.content p {
+  font-size: 16px;
+  color: #4d4949;
+}

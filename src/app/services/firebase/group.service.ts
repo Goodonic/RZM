@@ -44,14 +44,17 @@ export class GroupService {
   }
 
   async  getGRUPPByRef(segments:string[]){
-    let ref:string='';
+    // console.log(segments)
+    let ref="/";
     segments.splice(5).forEach((segment)=>{
+      // console.log(segment)
       ref+=segment+'/'
     })
     // console.log(ref)
-    const dataSnapshot = await this.initBD.db.doc(ref).get();
-    return dataSnapshot;
+    // const dataSnapshot = await this.initBD.db.doc(ref).get().then(data=>console.log(data))
+    return this.initBD.db.doc(ref).get();
   }
+
 
 
   async  addNewGRUPP(NewNOM:any) {
