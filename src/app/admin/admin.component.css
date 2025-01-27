@@ -30,4 +30,11 @@ mat-form-field {
   display: none;
 }
 
+.firstTd {
+  width: 300px; /* Ширина ячейки */
+  height: 50px; /* Высота ячейки */
+}
 
+td{
+  width: 200px;
+}
