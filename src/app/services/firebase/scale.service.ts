@@ -4,17 +4,17 @@ import {InitBDService} from './init/init-bd.service';
 @Injectable({
   providedIn: 'root'
 })
-export class NameService {
-  collectionPath:string = 'rootrecord/PRIMARY/NAME';
+export class ScaleService {
+  collectionPath:string = 'rootrecord/PRIMARY/SCALE';
   constructor(private initBD: InitBDService) { }
 
-  async  getAllNAMEID(){
+  async  getAllSCALEID(){
     const snapshot = await this.initBD.db.collection(this.collectionPath).get();
     return snapshot
 
   }
 
-  async  getNameByRef(segments:string[]){
+  async  getScaleByRef(segments:string[]){
     let ref="/";
     segments.splice(5).forEach((segment)=>{
       ref+=segment+'/'

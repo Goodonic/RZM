@@ -13,6 +13,18 @@ export class PodgroupService {
     return snapshot
   }
 
+  async  getPodGroupByRef(segments:string[]){
+    // console.log(segments)
+    let ref="/";
+    segments.splice(5).forEach((segment)=>{
+      // console.log(segment)
+      ref+=segment+'/'
+    })
+    // console.log(ref)
+    // const dataSnapshot = await this.initBD.db.doc(ref).get().then(data=>console.log(data))
+    return this.initBD.db.doc(ref).get();
+  }
+
   async  getPODGRUPPNameByID(id:string){
     const dataSnapshot = (await this.initBD.db.doc(this.collectionPath + "/" + id).get());
     return dataSnapshot;

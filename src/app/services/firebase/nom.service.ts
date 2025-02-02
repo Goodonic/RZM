@@ -34,7 +34,12 @@ export class NOMService {
     // {available_nom,bodymaid_nom,cash_nom,frontpic_nom,grupp_nom,name_nom,podgrupp_nom,scale_nom}
      NewNOM.grupp_nom = this.initBD.db.doc(NewNOM.grupp_nom)
      NewNOM.podgrupp_nom = this.initBD.db.doc(NewNOM.podgrupp_nom)
-     console.log(NewNOM.grupp_nom)
+     NewNOM.available_nom = this.initBD.db.doc(NewNOM.available_nom)
+     NewNOM.bodymaid_nom = this.initBD.db.doc(NewNOM.bodymaid_nom)
+     NewNOM.product_type = this.initBD.db.doc(NewNOM.product_type)
+     NewNOM.name_nom = this.initBD.db.doc(NewNOM.name_nom)
+     NewNOM.scale_nom = this.initBD.db.doc(NewNOM.scale_nom)
+     // console.log(NewNOM.name_nom)
 
     await docRef.set({
       available_nom: NewNOM.available_nom,
@@ -44,6 +49,7 @@ export class NOMService {
       grupp_nom: NewNOM.grupp_nom,
       name_nom: NewNOM.name_nom,
       podgrupp_nom:NewNOM.podgrupp_nom,
+      product_type:NewNOM.product_type,
       scale_nom:NewNOM.scale_nom,
     });
   }

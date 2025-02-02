@@ -13,6 +13,7 @@ import {BodyMaidService} from '../services/firebase/body-maid.service';
 import {NameService} from '../services/firebase/name.service';
 import {TypeService} from '../services/firebase/type.service';
 import {AvailableService} from '../services/firebase/available.service';
+import {ScaleService} from '../services/firebase/scale.service';
 
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
@@ -30,6 +31,7 @@ export class AdminComponent {
   allName:any={};
   allType:any={};
   allAvailable:any={};
+  allScale:any={};
   allNOM:any[]=[];
 
   filteredNOM:any;
@@ -68,7 +70,8 @@ export class AdminComponent {
   filterPodGroups:any={}
 
   images: string[] = [];
-  constructor(private initBD: InitBDService,
+  constructor(private router: Router,
+              private initBD: InitBDService,
               private nom: NOMService,
               private grupp: GroupService,
               private imgService:ImgService,
@@ -77,13 +80,19 @@ export class AdminComponent {
               private nameService:NameService,
               private typeServise: TypeService,
               private available: AvailableService,
+              private scale: ScaleService,
   ) {
   }
   ngOnInit() {
+
       this.getAllNOMId().then(()=>{
         this.allNOMID.forEach((id)=>{
 
-          forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id), this.getBodyMaidById(id),this.getAvailableById(id), this.getNameById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData, typeData, bodyMaidData, availableData, nameData])=>{
+          forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id),
+            this.getBodyMaidById(id),this.getAvailableById(id),
+            this.getNameById(id), this.getScaleById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
+                                                                                              typeData, bodyMaidData, availableData,
+                                                                                              nameData, scaleData])=>{
             let product = this.toJSON(productData)
             product.id = id
 
@@ -93,7 +102,9 @@ export class AdminComponent {
             product.bodymaid_nom = this.toJSON(bodyMaidData).name_bodymaid
             product.available_nom = this.toJSON(availableData).name_available
             product.name_nom = this.toJSON(nameData).product_name
-            console.log(bodyMaidData)
+            console.log(this.toJSON(scaleData).product_scale)
+            product.scale_nom = this.toJSON(scaleData).product_scale
+            // console.log(bodyMaidData)
             // product.grupp_nom = this.toJSON(groupData).grupp
             this.allNOM.push(product)
           })
@@ -106,6 +117,7 @@ export class AdminComponent {
       this.getAllName()
       this.getAllType()
       this.getAllAvailable()
+      this.getAllScale()
     // console.log(this.filterObj)
   }
   getAllNOMId(){
@@ -196,13 +208,32 @@ export class AdminComponent {
       );
     })
   }
+
+  getAllScale(){
+    return this.scale.getAllSCALEID().then((snapshot)=>{
+
+      snapshot.forEach((doc) => {
+          let scaleName = this.toJSON(doc).product_scale
+          let scaleId = doc.id
+          this.allScale[scaleName] = scaleId;
+        }
+      );
+    })
+  }
+
   getNOMById(id:string){
     // console.log(this.allNOM)
     return this.nom.getNOMByID(id)
 
   }
   toJSON(data:any){
-    return JSON.parse(JSON.stringify(data.data()));
+    try {
+      return JSON.parse(JSON.stringify(data.data()));
+    }
+    catch{
+      console.log(data)
+      return JSON.parse(JSON.stringify(data.data()));
+    }
   }
 
   async getGroupById(id:string){
@@ -222,7 +253,7 @@ export class AdminComponent {
       let ref = product.podgrupp_nom._delegate._key.path.segments
       // console.log(product)
       // console.log(ref)
-      return this.grupp.getGRUPPByRef(ref)
+      return this.podGrupp.getPodGroupByRef(ref)
 
     })
   }
@@ -264,44 +295,52 @@ export class AdminComponent {
       let product = this.toJSON(data)
       let ref = product.name_nom._delegate._key.path.segments
       return this.nameService.getNameByRef(ref)
+    })
+  }
+  async getScaleById(id:string){
+    return this.getNOMById(id).then((data)=>{
 
+      let product = this.toJSON(data)
+      console.log(product)
+      let ref = product.scale_nom._delegate._key.path.segments
+      return this.scale.getScaleByRef(ref)
     })
   }
 
-  async getPodGroupsByGroup(groupName:string, mode:string){
-    if (mode  == 'N'){
-      this.podGroupsByGroup = []
-      this.grupp.getAllPodGroupsIdByGroupId(this.allGroups[groupName]).then((snapshot) => {
-        // console.log(doc.id, '=>', doc.data());
-        snapshot.forEach((doc)=>{
-          this.podGroupsByGroup[this.toJSON(doc).name_podgrupp] = doc.id
-          console.log(this.podGroupsByGroup)
+  // async getPodGroupsByGroup(groupName:string, mode:string){
+  //   if (mode  == 'N'){
+  //     this.podGroupsByGroup = []
+  //     this.grupp.getAllPodGroupsIdByGroupId(this.allGroups[groupName]).then((snapshot) => {
+  //       // console.log(doc.id, '=>', doc.data());
+  //       snapshot.forEach((doc)=>{
+  //         this.podGroupsByGroup[this.toJSON(doc).name_podgrupp] = doc.id
+  //         console.log(this.podGroupsByGroup)
+  //
+  //       })
+  //     })
+  //   }
+  //   else if (mode == "F"){
+  //     this.filterPodGroups = []
+  //     /*this.grupp.getAllPodGroupsIdByGroupId(this.allGroups[groupName]).then((snapshot) => {
+  //       // console.log(doc.id, '=>', doc.data());
+  //       snapshot.forEach((doc)=>{
+  //         this.filterPodGroups[this.toJSON(doc).name_podgrupp] = doc.id
+  //         console.log(this.filterPodGroups)
+  //
+  //       })
+  //     })*/
+  //
+  //     this.podGrupp.getAllPODGRUPPID().then((snapshot)=>{
+  //       snapshot.forEach((doc)=>{
+  //         this.filterPodGroups[this.toJSON(doc).name_podgrupp] = doc.id
+  //       })
+  //     })
+  //   }
+  //}
 
-        })
-      })
-    }
-    else if (mode == "F"){
-      this.filterPodGroups = []
-      /*this.grupp.getAllPodGroupsIdByGroupId(this.allGroups[groupName]).then((snapshot) => {
-        // console.log(doc.id, '=>', doc.data());
-        snapshot.forEach((doc)=>{
-          this.filterPodGroups[this.toJSON(doc).name_podgrupp] = doc.id
-          console.log(this.filterPodGroups)
-
-        })
-      })*/
-
-      this.podGrupp.getAllPODGRUPPID().then((snapshot)=>{
-        snapshot.forEach((doc)=>{
-          this.filterPodGroups[this.toJSON(doc).name_podgrupp] = doc.id
-        })
-      })
-    }
-  }
-
-  async getGroupByRef(ref:any){
-      return this.grupp.getGRUPPByRef(ref).then(data=>console.log(data))
-  }
+  // async getGroupByRef(ref:any){
+  //     return this.grupp.getGRUPPByRef(ref).then(data=>console.log(data))
+  // }
 
   onFileSelected(event: any) {
     const files = event.target.files;
@@ -319,31 +358,44 @@ export class AdminComponent {
       reader.readAsDataURL(file);
     }
   }
-  addNOMImage(id:string, image:string){
-    this.imgService.addImage(id, image)
-    console.log("work")
-  }
-  base64ToImg(imgText:string){
-    return imgText.split(',')[2]
-  }
+  // addNOMImage(id:string, image:string){
+  //   this.imgService.addImage(id, image)
+  //   console.log("work")
+  // }
+  // base64ToImg(imgText:string){
+  //   return imgText.split(',')[2]
+  // }
 
   addNewNOM(NOM:any){
+    console.log(this.allPodGroups[NOM.podgrupp_nom])
+    if (
+      !(this.allPodGroups?.[NOM.podgrupp_nom] == null ||
+      this.allGroups?.[NOM.grupp_nom] == null ||
+      this.allBodyMaid?.[NOM.bodymaid_nom] == null ||
+      this.allName?.[NOM.name_nom] == null ||
+      this.allType?.[NOM.product_type] == null ||
+      this.allScale?.[NOM.scale_nom] == null ||
+      this.allAvailable?.[NOM.available_nom] == null)
+    ){
+      NOM.podgrupp_nom = '/rootrecord/PRIMARY/PODGRUPP/'+this.allPodGroups[NOM.podgrupp_nom]
+      NOM.grupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[NOM.grupp_nom]
+      NOM.available_nom = '/rootrecord/PRIMARY/AVAILABLE/'+this.allAvailable[NOM.available_nom]
+      NOM.bodymaid_nom = '/rootrecord/PRIMARY/BODYMAID/'+this.allBodyMaid[NOM.bodymaid_nom]
+      NOM.name_nom = '/rootrecord/PRIMARY/NAME/'+this.allName[NOM.name_nom]
+      NOM.product_type = '/rootrecord/PRIMARY/PRODUCTTYPE/'+this.allType[NOM.product_type]
+      NOM.scale_nom = '/rootrecord/PRIMARY/SCALE/'+this.allScale[NOM.scale_nom]
 
-    console.log(NOM)
-    NOM.podgrupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[NOM.grupp_nom]+"/PODGRUPP/"+this.podGroupsByGroup[NOM.podgrupp_nom]
-    NOM.grupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[NOM.grupp_nom]
-
-    this.nom.addNewNOM(NOM)
-    this.newNOM={
-      available_nom: '',
-      bodymaid_nom: '',
-      cash_nom: '',
-      frontpic_nom: [],
-      grupp_nom: '',
-      name_nom: '',
-      podgrupp_nom:'',
-      scale_nom:'',
-    };
+      this.nom.addNewNOM(NOM)
+      const currentUrl = this.router.url;
+      // Переход на временный маршрут, не изменяя URL (skipLocationChange)
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        // Возвращение на исходный маршрут
+        this.router.navigate([currentUrl]);
+      });
+    }
+    else {
+      alert("Для добавления товара, нужно заполнить все пункты")
+    }
   }
 
   reserFilter(){
@@ -360,36 +412,36 @@ export class AdminComponent {
     this.Filter2()
   }
 
-  emptyFilter(){
-    let eFilter = {
-      available_nom: '',
-      bodymaid_nom: '',
-      cash_nom: '',
-      frontpic_nom: [],
-      grupp_nom: '',
-      name_nom: '',
-      podgrupp_nom:'',
-      scale_nom:'',
-    }
-    if(this.filterObj.name_nom == eFilter.name_nom && this.filterObj.grupp_nom == eFilter.grupp_nom &&
-      this.filterObj.podgrupp_nom == eFilter.podgrupp_nom){
-      // console.log(this.filterObj)
-      return false
-    }
-    else return true
-  }
+  // emptyFilter(){
+  //   let eFilter = {
+  //     available_nom: '',
+  //     bodymaid_nom: '',
+  //     cash_nom: '',
+  //     frontpic_nom: [],
+  //     grupp_nom: '',
+  //     name_nom: '',
+  //     podgrupp_nom:'',
+  //     scale_nom:'',
+  //   }
+  //   if(this.filterObj.name_nom == eFilter.name_nom && this.filterObj.grupp_nom == eFilter.grupp_nom &&
+  //     this.filterObj.podgrupp_nom == eFilter.podgrupp_nom){
+  //     // console.log(this.filterObj)
+  //     return false
+  //   }
+  //   else return true
+  // }
 
-     Filter(product:any){
-    if (product.grupp_nom != this.filterObj.grupp_nom && this.filterObj.podgrupp_nom != product.podgrupp_nom) {
-      return true
-    }
-    else if(product.grupp_nom != this.filterObj.grupp_nom && this.filterObj.podgrupp_nom == ''){
-      return true
-    }
-
-
-    return false
-  }
+  //    Filter(product:any){
+  //   if (product.grupp_nom != this.filterObj.grupp_nom && this.filterObj.podgrupp_nom != product.podgrupp_nom) {
+  //     return true
+  //   }
+  //   else if(product.grupp_nom != this.filterObj.grupp_nom && this.filterObj.podgrupp_nom == ''){
+  //     return true
+  //   }
+  //
+  //
+  //   return false
+  // }
 
   Filter2(){
     let filter = this.filterObj
@@ -408,7 +460,35 @@ export class AdminComponent {
     // console.log(this.filteredNOM)
   }
 
-
+  // TableReload(){
+  //   this.allNOM = []
+  //   this.getAllNOMId().then(()=>{
+  //     this.allNOMID.forEach((id)=>{
+  //       forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id),
+  //         this.getBodyMaidById(id),this.getAvailableById(id),
+  //         this.getNameById(id), this.getScaleById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
+  //                                                                                 typeData, bodyMaidData, availableData,
+  //                                                                                 nameData, scaleData])=>{
+  //         let product = this.toJSON(productData)
+  //
+  //         product.id = id
+  //
+  //         product.grupp_nom = this.toJSON(groupData).grupp
+  //         product.podgrupp_nom = this.toJSON(podGroupData).name_podgrupp
+  //         product.product_type = this.toJSON(typeData).product_type
+  //         product.bodymaid_nom = this.toJSON(bodyMaidData).name_bodymaid
+  //         product.available_nom = this.toJSON(availableData).name_available
+  //         product.name_nom = this.toJSON(nameData).product_name
+  //         console.log(this.toJSON(scaleData).product_scale)
+  //         product.scale_nom = this.toJSON(scaleData).product_scale
+  //         this.allNOM.push(product)
+  //       })
+  //     })
+  //   }).then(()=> {
+  //     this.reserFilter()
+  //     this.filteredNOM = this.allNOM
+  //   })
+  // }
 
   protected readonly Object = Object;
 }
