@@ -15,6 +15,10 @@ import {TypeService} from '../services/firebase/type.service';
 import {AvailableService} from '../services/firebase/available.service';
 import {ScaleService} from '../services/firebase/scale.service';
 
+import {DescriptionDialogComponent} from './dialog/description-dialog/description-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {AddDescriptionDialogComponent} from './dialog/add-description-dialog/add-description-dialog.component';
+import {NomEditorComponent} from './dialog/nom-editor/nom-editor.component';
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
 @Component({
@@ -38,15 +42,16 @@ export class AdminComponent {
   NOMGroup:string='';
 
   newNOM:any={
-  available_nom: '',
-  bodymaid_nom: '',
-  cash_nom: '',
-  frontpic_nom: [],
-  grupp_nom: '',
-  name_nom: '',
-  podgrupp_nom:'',
-  scale_nom:'',
+    available_nom: '',
+    bodymaid_nom: '',
+    cash_nom: '',
+    frontpic_nom: [],
+    grupp_nom: '',
+    name_nom: '',
+    podgrupp_nom:'',
+    scale_nom:'',
     product_type:'',
+    description:'',
 }
   filterObj:any={
     available_nom: '',
@@ -81,6 +86,8 @@ export class AdminComponent {
               private typeServise: TypeService,
               private available: AvailableService,
               private scale: ScaleService,
+
+              private dialog: MatDialog,
   ) {
   }
   ngOnInit() {
@@ -104,6 +111,7 @@ export class AdminComponent {
             product.name_nom = this.toJSON(nameData).product_name
             console.log(this.toJSON(scaleData).product_scale)
             product.scale_nom = this.toJSON(scaleData).product_scale
+            // product.discription = this.toJSON(scaleData).product_scale
             // console.log(bodyMaidData)
             // product.grupp_nom = this.toJSON(groupData).grupp
             this.allNOM.push(product)
@@ -358,10 +366,7 @@ export class AdminComponent {
       reader.readAsDataURL(file);
     }
   }
-  // addNOMImage(id:string, image:string){
-  //   this.imgService.addImage(id, image)
-  //   console.log("work")
-  // }
+
   // base64ToImg(imgText:string){
   //   return imgText.split(',')[2]
   // }
@@ -412,37 +417,6 @@ export class AdminComponent {
     this.Filter2()
   }
 
-  // emptyFilter(){
-  //   let eFilter = {
-  //     available_nom: '',
-  //     bodymaid_nom: '',
-  //     cash_nom: '',
-  //     frontpic_nom: [],
-  //     grupp_nom: '',
-  //     name_nom: '',
-  //     podgrupp_nom:'',
-  //     scale_nom:'',
-  //   }
-  //   if(this.filterObj.name_nom == eFilter.name_nom && this.filterObj.grupp_nom == eFilter.grupp_nom &&
-  //     this.filterObj.podgrupp_nom == eFilter.podgrupp_nom){
-  //     // console.log(this.filterObj)
-  //     return false
-  //   }
-  //   else return true
-  // }
-
-  //    Filter(product:any){
-  //   if (product.grupp_nom != this.filterObj.grupp_nom && this.filterObj.podgrupp_nom != product.podgrupp_nom) {
-  //     return true
-  //   }
-  //   else if(product.grupp_nom != this.filterObj.grupp_nom && this.filterObj.podgrupp_nom == ''){
-  //     return true
-  //   }
-  //
-  //
-  //   return false
-  // }
-
   Filter2(){
     let filter = this.filterObj
 
@@ -460,35 +434,82 @@ export class AdminComponent {
     // console.log(this.filteredNOM)
   }
 
-  // TableReload(){
-  //   this.allNOM = []
-  //   this.getAllNOMId().then(()=>{
-  //     this.allNOMID.forEach((id)=>{
-  //       forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id),
-  //         this.getBodyMaidById(id),this.getAvailableById(id),
-  //         this.getNameById(id), this.getScaleById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
-  //                                                                                 typeData, bodyMaidData, availableData,
-  //                                                                                 nameData, scaleData])=>{
-  //         let product = this.toJSON(productData)
-  //
-  //         product.id = id
-  //
-  //         product.grupp_nom = this.toJSON(groupData).grupp
-  //         product.podgrupp_nom = this.toJSON(podGroupData).name_podgrupp
-  //         product.product_type = this.toJSON(typeData).product_type
-  //         product.bodymaid_nom = this.toJSON(bodyMaidData).name_bodymaid
-  //         product.available_nom = this.toJSON(availableData).name_available
-  //         product.name_nom = this.toJSON(nameData).product_name
-  //         console.log(this.toJSON(scaleData).product_scale)
-  //         product.scale_nom = this.toJSON(scaleData).product_scale
-  //         this.allNOM.push(product)
-  //       })
-  //     })
-  //   }).then(()=> {
-  //     this.reserFilter()
-  //     this.filteredNOM = this.allNOM
-  //   })
-  // }
+  openDescriptionDialog(data:string){
+    const dialogRef = this.dialog.open(DescriptionDialogComponent, {
+      data: { text: data }  // Передача данных в диалоговое окно
+    });
+  }
 
+  openAddDescriptionDialog(){
+    const dialogRef = this.dialog.open(AddDescriptionDialogComponent,{ width: '50lvw'});
+
+    dialogRef.afterClosed().subscribe(result=>{
+      if (result && result.mode){
+        this.newNOM.description = result.data
+      }
+      else{
+
+      }
+    })
+  }
+  openEditorDialog(id:string, product:any){
+    const dialogRef = this.dialog.open(NomEditorComponent, {
+      width: '1200px',
+      maxWidth: 'none',
+      height: '300px',
+      data: {
+        Id:id,
+        editNom:product,
+        allGroups:this.allGroups,
+        allPodGroups:this.allPodGroups,
+        allBodyMaid:this.allBodyMaid,
+        allName:this.allName,
+        allType:this.allType,
+        allAvailable:this.allAvailable,
+        allScale:this.allScale,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result=>{
+      if (result){
+        console.log(result)
+        if (
+          !(this.allPodGroups?.[ result.data.podgrupp_nom] == null ||
+            this.allGroups?.[ result.data.grupp_nom] == null ||
+            this.allBodyMaid?.[ result.data.bodymaid_nom] == null ||
+            this.allName?.[ result.data.name_nom] == null ||
+            this.allType?.[ result.data.product_type] == null ||
+            this.allScale?.[ result.data.scale_nom] == null ||
+            this.allAvailable?.[ result.data.available_nom] == null)
+        ){
+          result.data.podgrupp_nom = '/rootrecord/PRIMARY/PODGRUPP/'+this.allPodGroups[ result.data.podgrupp_nom]
+          result.data.grupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[ result.data.grupp_nom]
+          result.data.available_nom = '/rootrecord/PRIMARY/AVAILABLE/'+this.allAvailable[ result.data.available_nom]
+          result.data.bodymaid_nom = '/rootrecord/PRIMARY/BODYMAID/'+this.allBodyMaid[ result.data.bodymaid_nom]
+          result.data.name_nom = '/rootrecord/PRIMARY/NAME/'+this.allName[ result.data.name_nom]
+          result.data.product_type = '/rootrecord/PRIMARY/PRODUCTTYPE/'+this.allType[ result.data.product_type]
+          result.data.scale_nom = '/rootrecord/PRIMARY/SCALE/'+this.allScale[ result.data.scale_nom]
+
+          const currentUrl = this.router.url;
+          // Переход на временный маршрут, не изменяя URL (skipLocationChange)
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            // Возвращение на исходный маршрут
+            this.router.navigate([currentUrl]);
+          });
+        }
+        this.nom.updateNom(result.id, result.data)
+
+        // const currentUrl = this.router.url;
+        // // Переход на временный маршрут, не изменяя URL (skipLocationChange)
+        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        // // Возвращение на исходный маршрут
+        // this.router.navigate([currentUrl]);
+        // });
+      }
+      else{
+
+      }
+    })
+  }
   protected readonly Object = Object;
 }

@@ -1,0 +1,128 @@
+<!--<h1 mat-dialog-title>Редактирование данных</h1>-->
+<!--<div mat-dialog-content class="dialog-content">-->
+
+<!--  <mat-form-field appearance="fill" class="full-width">-->
+<!--    <mat-label>Available Nom</mat-label>-->
+<!--    <input matInput [(ngModel)]="formData.available_nom">-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field appearance="fill" class="full-width">-->
+<!--    <mat-label>Bodymaid Nom</mat-label>-->
+<!--    <input matInput [(ngModel)]="formData.bodymaid_nom">-->
+<!--  </mat-form-field>-->
+
+
+<!--</div>-->
+<!--<div mat-dialog-actions class="dialog-actions">-->
+<!--  <button mat-button (click)="close()">Отмена</button>-->
+<!--  <button mat-raised-button color="primary" (click)="onSave()">Сохранить</button>-->
+<!--</div>-->
+
+<!---->
+
+<h4 class="title">{{data.Id}}</h4>
+<table>
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Тип ПС</th>
+    <th>Категория</th>
+    <th>Товар</th>
+    <th>Масштаб</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <select name="Название" [(ngModel)]="formData.name_nom">
+        <option value="" selected >Выбрать</option>
+        <option *ngFor="let group of Object.keys(data.allName)" >
+          {{group}}
+        </option>
+      </select>
+    </td>
+    <td><select name="Группа" [(ngModel)]="formData.grupp_nom">>
+      <option value="" selected disabled hidden>Выбрать</option>
+      <option *ngFor="let group of Object.keys(data.allGroups)" >
+        {{group}}
+      </option>
+    </select>
+    </td>
+    <td><select name="Тип" [(ngModel)]="formData.product_type">
+      <option value="" selected disabled hidden>Выбрать</option>
+      <option *ngFor="let group of Object.keys(data.allType)">
+        {{group}}
+      </option>
+    </select>
+    </td>
+
+    <!--    allGroups[product.grupp_nom]-->
+    <td>
+      <select name="Подгруппа" [(ngModel)]="formData.podgrupp_nom">>
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of Object.keys(data.allPodGroups)" >
+          {{group}}
+        </option>
+      </select>
+    </td>
+    <td>
+      <select name="Подгруппа" [(ngModel)]="formData.scale_nom">>
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of Object.keys(data.allScale)" >
+          {{group}}
+        </option>
+      </select>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <th>Изготовитель</th>
+    <th>Доступность</th>
+    <th>Цена</th>
+    <th>Описание</th>
+    <th>Изображение</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <select name="Изготовитель" [(ngModel)]="formData.bodymaid_nom">
+          <option value="" selected disabled hidden>Выбрать</option>
+          <option *ngFor="let group of Object.keys(data.allBodyMaid)" >
+            {{group}}
+          </option>
+        </select>
+      </td>
+      <td>
+        <select name="Доступность" [(ngModel)]="formData.available_nom">
+          <option value="" selected >Все</option>
+          <option *ngFor="let group of Object.keys(data.allAvailable)" >
+            {{group}}
+          </option>
+        </select>
+      </td>
+      <td>
+        <input [(ngModel)]="formData.cash_nom" type="number">
+      </td>
+      <td>
+        <button (click)="openAddDescriptionDialog()">Добавить описание</button>
+      </td>
+      <td>
+        <input  type="file"
+                id="fileInput"
+                accept="image/*"
+                multiple
+                (change)="onFileSelected($event)">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button class="closeButton" mat-button (click)="close()">Отмена</button>
+  <button class="closeButton" mat-raised-button color="primary" (click)="onSave()">Сохранить</button>
+</div>
+

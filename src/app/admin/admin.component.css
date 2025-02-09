@@ -38,3 +38,10 @@ mat-form-field {
 td{
   width: 200px;
 }
+
+.disDialogB{
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 3lvw;
+}

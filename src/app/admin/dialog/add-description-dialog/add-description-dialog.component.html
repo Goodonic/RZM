@@ -1,0 +1,16 @@
+<div mat-dialog-content class="dialog-content">
+  <mat-form-field appearance="fill" class="textPlane">
+    <mat-label>Введите описание</mat-label>
+    <textarea matInput [(ngModel)]="inputData" rows="5"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <table>
+    <td>
+      <button class="closeButton"  (click)="close(false)">Закрыть</button>
+      <button class="closeButton"  (click)="close(true)">Добавить</button>
+    </td>
+  </table>
+
+</div>
+

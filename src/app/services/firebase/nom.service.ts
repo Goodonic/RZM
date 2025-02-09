@@ -51,9 +51,22 @@ export class NOMService {
       podgrupp_nom:NewNOM.podgrupp_nom,
       product_type:NewNOM.product_type,
       scale_nom:NewNOM.scale_nom,
+      description:NewNOM.description,
     });
   }
 
+  async updateNom(id:string, editNom:any){
+    const docRef = this.initBD.db.collection(this.collectionPath).doc(id);
+    editNom.grupp_nom = this.initBD.db.doc(editNom.grupp_nom)
+    editNom.podgrupp_nom = this.initBD.db.doc(editNom.podgrupp_nom)
+    editNom.available_nom = this.initBD.db.doc(editNom.available_nom)
+    editNom.bodymaid_nom = this.initBD.db.doc(editNom.bodymaid_nom)
+    editNom.product_type = this.initBD.db.doc(editNom.product_type)
+    editNom.name_nom = this.initBD.db.doc(editNom.name_nom)
+    editNom.scale_nom = this.initBD.db.doc(editNom.scale_nom)
+
+    await docRef.update(editNom)
+  }
 
 
 }
