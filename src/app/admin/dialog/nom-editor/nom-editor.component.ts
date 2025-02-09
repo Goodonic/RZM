@@ -108,5 +108,9 @@ export class NomEditorComponent {
     this.dialogRef.close();
   }
 
+  delete():void{
+    this.dialogRef.close({id:this.data.Id, mode:"delete"});
+  }
+
   protected readonly Object = Object;
 }

@@ -68,5 +68,9 @@ export class NOMService {
     await docRef.update(editNom)
   }
 
+  async deleteNom(id:string){
+    const docRef = this.initBD.db.collection(this.collectionPath).doc(id);
 
+    await docRef.delete()
+  }
 }

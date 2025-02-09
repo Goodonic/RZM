@@ -471,7 +471,17 @@ export class AdminComponent {
     });
 
     dialogRef.afterClosed().subscribe(result=>{
-      if (result){
+      if(result.mode == "delete"){
+        console.log(result.id)
+        this.nom.deleteNom(result.id)
+        const currentUrl = this.router.url;
+        // Переход на временный маршрут, не изменяя URL (skipLocationChange)
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          // Возвращение на исходный маршрут
+          this.router.navigate([currentUrl]);
+        });
+      }
+      if (result && result!="delete"){
         console.log(result)
         if (
           !(this.allPodGroups?.[ result.data.podgrupp_nom] == null ||
@@ -498,16 +508,6 @@ export class AdminComponent {
           });
         }
         this.nom.updateNom(result.id, result.data)
-
-        // const currentUrl = this.router.url;
-        // // Переход на временный маршрут, не изменяя URL (skipLocationChange)
-        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        // // Возвращение на исходный маршрут
-        // this.router.navigate([currentUrl]);
-        // });
-      }
-      else{
-
       }
     })
   }
