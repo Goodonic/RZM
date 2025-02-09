@@ -440,8 +440,10 @@ export class AdminComponent {
     });
   }
 
-  openAddDescriptionDialog(){
-    const dialogRef = this.dialog.open(AddDescriptionDialogComponent,{ width: '50lvw'});
+  openAddDescriptionDialog(oldDescription:string = ''){
+    const dialogRef = this.dialog.open(AddDescriptionDialogComponent,{ width: '50lvw', data:{
+        oldDescription: oldDescription
+      }});
 
     dialogRef.afterClosed().subscribe(result=>{
       if (result && result.mode){

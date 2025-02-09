@@ -68,7 +68,8 @@ export class NomEditorComponent {
     console.log(this.data)
   }
   openAddDescriptionDialog(){
-    const dialogRef = this.dialog.open(AddDescriptionDialogComponent,{ width: '50lvw'});
+    const dialogRef = this.dialog.open(AddDescriptionDialogComponent,{ width: '50lvw',
+    data:{oldDescription:this.data.editNom.description}});
 
     dialogRef.afterClosed().subscribe(result=>{
       if (result && result.mode){

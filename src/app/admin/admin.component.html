@@ -145,102 +145,102 @@
 <!--  </div>-->
 <!--  <button (click)="addNOMImage(allNOMID[0], images[0])">Добавить изображение</button>-->
 <!--</div>-->
+<div class="addTableContainer">
+  <table>
+    <thead>
+    <tr>
+      <th class="addTable">Название</th>
+      <th class="addTable">Тип ПС</th>
+      <th class="addTable">Категория</th>
+      <th class="addTable">Товар</th>
+      <th class="addTable">Масштаб</th>
+      <th class="addTable">Изготовитель</th>
+      <th class="addTable">Доступность</th>
+      <th class="addTable">Цена</th>
+      <th class="addTable">Описание</th>
+      <th class="addTable">Изображение</th>
+      <th class="addTable"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="addTable">
+        <select name="Название" [(ngModel)]="newNOM.name_nom">
+          <option value="" selected >Выбрать</option>
+          <option *ngFor="let group of Object.keys(allName)" >
+            {{group}}
+          </option>
+        </select>
+      </td >
+      <td class="addTable"><select name="Группа" [(ngModel)]="newNOM.grupp_nom">>
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of Object.keys(this.allGroups)" >
+          {{group}}
+        </option>
+      </select>
+      </td>
+      <td class="addTable"><select name="Тип" [(ngModel)]="newNOM.product_type">
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of Object.keys(allType)">
+          {{group}}
+        </option>
+      </select>
+      </td>
 
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Название</th>
-    <th>Тип ПС</th>
-    <th>Категория</th>
-    <th>Товар</th>
-    <th>Масштаб</th>
-    <th>Изготовитель</th>
-    <th>Доступность</th>
-    <th>Цена</th>
-    <th>Описание</th>
-    <th>Изображение</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Авто</td>
-    <td>
-      <select name="Название" [(ngModel)]="newNOM.name_nom">
-        <option value="" selected >Выбрать</option>
-        <option *ngFor="let group of Object.keys(allName)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td><select name="Группа" [(ngModel)]="newNOM.grupp_nom">>
-      <option value="" selected disabled hidden>Выбрать</option>
-      <option *ngFor="let group of Object.keys(this.allGroups)" >
-        {{group}}
-      </option>
-    </select>
-    </td>
-    <td><select name="Тип" [(ngModel)]="newNOM.product_type">
-      <option value="" selected disabled hidden>Выбрать</option>
-      <option *ngFor="let group of Object.keys(allType)">
-        {{group}}
-      </option>
-    </select>
-    </td>
+      <!--    allGroups[product.grupp_nom]-->
+      <td class="addTable">
+        <select name="Подгруппа" [(ngModel)]="newNOM.podgrupp_nom">>
+          <option value="" selected disabled hidden>Выбрать</option>
+          <option *ngFor="let group of Object.keys(allPodGroups)" >
+            {{group}}
+          </option>
+        </select>
+      </td>
+      <td class="addTable">
+        <select name="Подгруппа" [(ngModel)]="newNOM.scale_nom">>
+          <option value="" selected disabled hidden>Выбрать</option>
+          <option *ngFor="let group of Object.keys(allScale)" >
+            {{group}}
+          </option>
+        </select>
+      </td>
+      <td class="addTable">
+        <select name="Изготовитель" [(ngModel)]="newNOM.bodymaid_nom">
+          <option value="" selected disabled hidden>Выбрать</option>
+          <option *ngFor="let group of Object.keys(allBodyMaid)" >
+            {{group}}
+          </option>
+        </select>
+      </td>
+      <td class="addTable">
+        <select name="Доступность" [(ngModel)]="newNOM.available_nom">
+          <option value="" selected >Все</option>
+          <option *ngFor="let group of Object.keys(allAvailable)" >
+            {{group}}
+          </option>
+        </select>
+      </td>
+      <td class="addTable">
+        <input [(ngModel)]="newNOM.cash_nom" type="number">
+      </td>
+      <td class="addTable">
+        <button (click)="openAddDescriptionDialog()">Добавить описание</button>
+      </td>
+      <td class="addTable">
+        <input  type="file"
+                id="fileInput"
+                accept="image/*"
+                multiple
+                (change)="onFileSelected($event)">
+      </td>
+      <td class="addTable">
+        <button (click)="addNewNOM(newNOM)">Добавить</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-<!--    allGroups[product.grupp_nom]-->
-    <td>
-      <select name="Подгруппа" [(ngModel)]="newNOM.podgrupp_nom">>
-        <option value="" selected disabled hidden>Выбрать</option>
-        <option *ngFor="let group of Object.keys(allPodGroups)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td>
-      <select name="Подгруппа" [(ngModel)]="newNOM.scale_nom">>
-        <option value="" selected disabled hidden>Выбрать</option>
-        <option *ngFor="let group of Object.keys(allScale)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td>
-      <select name="Изготовитель" [(ngModel)]="newNOM.bodymaid_nom">
-        <option value="" selected disabled hidden>Выбрать</option>
-        <option *ngFor="let group of Object.keys(allBodyMaid)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td>
-      <select name="Доступность" [(ngModel)]="newNOM.available_nom">
-        <option value="" selected >Все</option>
-        <option *ngFor="let group of Object.keys(allAvailable)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td>
-      <input [(ngModel)]="newNOM.cash_nom" type="number">
-    </td>
-    <td>
-      <button (click)="openAddDescriptionDialog()">Добавить описание</button>
-    </td>
-    <td>
-      <input  type="file"
-             id="fileInput"
-             accept="image/*"
-              multiple
-             (change)="onFileSelected($event)">
-    </td>
-    <td>
-      <button (click)="addNewNOM(newNOM)">Добавить</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+</div>
 
 
 
