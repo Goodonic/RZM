@@ -45,6 +45,12 @@ td{
   overflow: hidden;
   max-width: 3lvw;
 }
+.nomId{
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 4lvw;
+}
 
 .addTable{
   padding: 5px;
