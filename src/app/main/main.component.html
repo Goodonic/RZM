@@ -50,7 +50,7 @@
 
   <main class="product-table">
     <div *ngFor="let product of filteredNOM">
-      <app-product-card class="card"
+      <app-product-card (click)="sendProductPageData(product.id)" class="card"
         [image]="product.frontpic_nom"
         [price]="product.cash_nom"
         [description]="product.description"

@@ -15,6 +15,7 @@ import {TypeService} from '../services/firebase/type.service';
 import {AvailableService} from '../services/firebase/available.service';
 import {ScaleService} from '../services/firebase/scale.service';
 import {MatDialog} from '@angular/material/dialog';
+import {ProductPageService} from './components/product-page/services/product-page.service';
 
 
 @Component({
@@ -57,7 +58,8 @@ export class MainComponent {
               private typeServise: TypeService,
               private available: AvailableService,
               private scale: ScaleService,
-              private dialog: MatDialog,) {
+              private dialog: MatDialog,
+              private  productPageS: ProductPageService) {
   }
 
   ngOnInit() {
@@ -379,6 +381,8 @@ export class MainComponent {
     this.Filter2()
   }
 
-
+  sendProductPageData(productId:string){
+    this.router.navigate(['/product/'+productId]);
+  }
   protected readonly Object = Object;
 }
