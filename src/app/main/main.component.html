@@ -53,9 +53,9 @@
     <h2>Фильтры</h2>
     <div class="filter-section">
       <h3>Поиск</h3>
-      <div class="searchBarContainer" >
-        <input #searchBox class="form-control mr-sm-2 searchBar" type="search"  placeholder="Найти на РЖМ" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0 searchBarBtn" (click)="filterObj.name_nom = searchBox.value; Filter2()">Найти</button>
+      <div class="searchBarContainer"  >
+        <input #searchBox class="form-control mr-sm-2 searchBar" (keyup.enter)="filterObj.name_nom = searchBox.value; Filter2()" type="search"  placeholder="Найти на РЖМ" aria-label="Search">
+        <button type="submit" class="btn btn-outline-success my-2 my-sm-0 searchBarBtn" (click)="filterObj.name_nom = searchBox.value; Filter2()">Найти</button>
       </div>
     </div>
     <div class="filter-section">
