@@ -47,7 +47,7 @@ export class MainComponent {
     product_type:[]
   }
 
-  constructor(private router: Router,
+  constructor(public router: Router,
               private initBD: InitBDService,
               private nom: NOMService,
               private grupp: GroupService,
@@ -59,7 +59,7 @@ export class MainComponent {
               private available: AvailableService,
               private scale: ScaleService,
               private dialog: MatDialog,
-              private  productPageS: ProductPageService) {
+              private productPageS: ProductPageService) {
   }
 
   ngOnInit() {
@@ -309,13 +309,14 @@ export class MainComponent {
 
     this.filteredNOM = productArr.filter((element, index, array)=>{
 
-      console.log(filter.grupp_nom, element.grupp_nom, filter.grupp_nom.includes(element.grupp_nom),filter.name_nom.length)
-      return (filter.name_nom.length != 0 ? filter.name_nom.includes(element.name_nom) : true) &&
-        (filter.grupp_nom.length != 0 ? filter.grupp_nom.includes(element.grupp_nom) : true) &&
+
+      // console.log(filter.name_nom, filter.grupp_nom, element.grupp_nom, filter.grupp_nom.includes(element.grupp_nom),filter.name_nom.length)
+      return (filter.grupp_nom.length != 0 ? filter.grupp_nom.includes(element.grupp_nom) : true) &&
         (filter.podgrupp_nom.length != 0 ? filter.podgrupp_nom.includes(element.podgrupp_nom) : true) &&
         (filter.bodymaid_nom.length != 0 ? filter.bodymaid_nom.includes(element.bodymaid_nom): true) &&
         (filter.product_type.length != 0 ? filter.product_type.includes(element.product_type) : true) &&
-        (filter.available_nom.length != 0 ? filter.available_nom.includes(element.available_nom) : true)
+        (filter.available_nom.length != 0 ? filter.available_nom.includes(element.available_nom) : true) &&
+        (filter.name_nom.length != 0 ? element.name_nom.toLowerCase().indexOf(filter.name_nom.toLowerCase()) != -1 : true)
     })
 
     console.log(this.filteredNOM)
@@ -384,5 +385,11 @@ export class MainComponent {
   sendProductPageData(productId:string){
     this.router.navigate(['/product/'+productId]);
   }
+
+  textBarSearch(){
+
+  }
+
   protected readonly Object = Object;
+  protected readonly alert = alert;
 }

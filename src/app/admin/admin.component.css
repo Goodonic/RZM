@@ -54,5 +54,15 @@ td{
 
 .addTable{
   padding: 5px;
+  max-width: calc(100vw/10);
 
+}
+
+.addTableContainer{
+  width: 100vw;
+  overflow-x: hidden;
+
+}
+.addProductTable{
+  max-width: 100%;
 }
