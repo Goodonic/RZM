@@ -110,3 +110,17 @@ body {
 .card:hover {
   transform: scale(1.05);
 }
+
+.searchBarContainer{
+  display: flex;
+  flex-direction: row;
+}
+
+.searchBar{
+  max-width: 70%;
+}
+.searchBarBtn{
+  background-color: #ee6c0d;
+  border-color: #d75e0e;
+  color: white;
+}
