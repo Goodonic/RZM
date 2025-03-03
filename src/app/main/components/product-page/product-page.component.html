@@ -55,41 +55,60 @@
     </ul>
   </div>
 </nav>
-<div class="container">
-  <main>
-    <section class="product">
-      <!-- Левая колонка: Изображение товара -->
-      <div class="product-column product-left">
-        <img src="{{data.frontpic_nom}}">
-      </div>
-      <!-- Центральная колонка: Таблица размеров и "О товаре" -->
-      <div class="product-column product-center">
-        <h2>Масштаб</h2>
-        <table class="size-table">
-          <tr>
-            <td>1:87</td>
-          </tr>
-        </table>
-        <h2>О товаре</h2>
-        <table class="size-table">
-          <tr>
-            <td>Тип</td>
-            <td>{{data.grupp_nom}}</td>
-          </tr>
-          <tr>
-            <td>Категория</td>
-            <td>{{data.product_type}}</td>
-          </tr>
-
-        </table>
-      </div>
-      <!-- Правая колонка: Цена и кнопка "Добавить в корзину" -->
-      <div class="product-column product-right">
-        <div class="price">12 345 ₽</div>
-        <div class="add-to-cart">
-          <button>Добавить в корзину</button>
+<body>
+  <div class="container">
+    <main>
+      <section class="product">
+        <!-- Левая колонка: Изображение товара -->
+        <div class="product-column product-left">
+          <img src="{{data.frontpic_nom}}">
         </div>
-      </div>
-    </section>
-  </main>
-</div>
+        <!-- Центральная колонка: Таблица размеров и "О товаре" -->
+        <div class="product-column product-center">
+          <h1>{{data.name_nom}}</h1>
+          <h2>Масштаб</h2>
+          <table class="size-table">
+            <tr>
+              <td>1:87</td>
+            </tr>
+          </table>
+          <h2>О товаре</h2>
+          <table class="size-table">
+            <tr>
+              <td>Тип</td>
+              <td>{{data.grupp_nom}}</td>
+            </tr>
+            <tr>
+              <td>Категория</td>
+              <td>{{data.product_type}}</td>
+            </tr>
+
+          </table>
+        </div>
+        <!-- Правая колонка: Цена и кнопка "Добавить в корзину" -->
+        <div class="product-column product-right">
+          <div class="price">{{data.cash_nom}} ₽</div>
+          <div class="add-to-cart">
+            <button>Добавить в корзину</button>
+          </div>
+          <div class="payInOne">
+            <button>Купить в 1 клик</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="recommendationListContainer">
+    <div class="recommendationList">
+      Тут будет список рекомендаций
+    </div>
+  </div>
+
+  <div class="descriptionContainer">
+    <h3 >Описание</h3>
+    <div class="description">
+      {{data.description}}
+    </div>
+  </div>
+<body>
+
