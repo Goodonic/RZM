@@ -22,7 +22,8 @@ export class ProductPageComponent {
   id:string = '';
   data:any;
 
-  constructor(private activeRoute: ActivatedRoute,
+  constructor(public router: Router,
+              private activeRoute: ActivatedRoute,
               private route: Router,
               private nom: NOMService,
               private grupp: GroupService,

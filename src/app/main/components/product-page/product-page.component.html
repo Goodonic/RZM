@@ -1,8 +1,95 @@
-<img [src]="data.frontpic_nom">
+<!--<img [src]="data.frontpic_nom">
 <p>{{data.name_nom}}</p>
 <p>{{data.description}}</p>
 <p>{{data.cash_nom}}</p>
 <p>{{data.available}}</p>
 <p>{{data.bodymaid_nom}}</p>
 <p>{{data.grupp_nom}}</p>
-<p>{{data.podgrupp_nom}}</p>
+<p>{{data.podgrupp_nom}}</p>-->
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light, header">
+  <a class="navbar-brand" (click)="router.navigate(['/admin'])">RZM</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Категории
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Модели
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item ria-labelledby='navbarDropdown' " href="#">Паровозы</a>
+            <a class="dropdown-item" href="#">Электровозы</a>
+            <a class="dropdown-item" href="#">Что-то еще</a>
+          </div>
+
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Акции</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Контакты</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-user"></i> Вход / Регистрация</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Корзина</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <main>
+    <section class="product">
+      <!-- Левая колонка: Изображение товара -->
+      <div class="product-column product-left">
+        <img src="{{data.frontpic_nom}}">
+      </div>
+      <!-- Центральная колонка: Таблица размеров и "О товаре" -->
+      <div class="product-column product-center">
+        <h2>Масштаб</h2>
+        <table class="size-table">
+          <tr>
+            <td>1:87</td>
+          </tr>
+        </table>
+        <h2>О товаре</h2>
+        <table class="size-table">
+          <tr>
+            <td>Тип</td>
+            <td>{{data.grupp_nom}}</td>
+          </tr>
+          <tr>
+            <td>Категория</td>
+            <td>{{data.product_type}}</td>
+          </tr>
+
+        </table>
+      </div>
+      <!-- Правая колонка: Цена и кнопка "Добавить в корзину" -->
+      <div class="product-column product-right">
+        <div class="price">12 345 ₽</div>
+        <div class="add-to-cart">
+          <button>Добавить в корзину</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

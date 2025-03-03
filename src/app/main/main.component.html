@@ -54,7 +54,10 @@
     <div class="filter-section">
       <h3>Поиск</h3>
       <div class="searchBarContainer"  >
-        <input #searchBox class="form-control mr-sm-2 searchBar" (keyup.enter)="filterObj.name_nom = searchBox.value; Filter2()" type="search"  placeholder="Найти на РЖМ" aria-label="Search">
+        <input #searchBox class="form-control mr-sm-2 searchBar" [(ngModel)]="searchBarText" (ngModelChange)="searchBarHelper($event)"  (keyup.enter)="filterObj.name_nom = searchBox.value; Filter2()" type="search" list="options" placeholder="Найти на РЖМ" aria-label="Search">
+        <datalist id="options">
+          <option *ngFor="let product of searchBarHelpList" value="{{product}}">
+        </datalist>
         <button type="submit" class="btn btn-outline-success my-2 my-sm-0 searchBarBtn" (click)="filterObj.name_nom = searchBox.value; Filter2()">Найти</button>
       </div>
     </div>

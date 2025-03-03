@@ -16,11 +16,11 @@ import {AvailableService} from '../services/firebase/available.service';
 import {ScaleService} from '../services/firebase/scale.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductPageService} from './components/product-page/services/product-page.service';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
-  imports: [ProductCardComponent, HeaderComponent, CommonModule],
+  imports: [ProductCardComponent, HeaderComponent, CommonModule, FormsModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
@@ -47,6 +47,8 @@ export class MainComponent {
     product_type:[]
   }
 
+  searchBarHelpList: string[] = [];
+  searchBarText: string = ""
   constructor(public router: Router,
               private initBD: InitBDService,
               private nom: NOMService,
@@ -386,10 +388,24 @@ export class MainComponent {
     this.router.navigate(['/product/'+productId]);
   }
 
+  searchBarHelper(subString:string){
+    this.searchBarHelpList = [];
+
+    for( let i = 0; i<this.allNOM.length; i++){
+      if( this.searchBarHelpList.indexOf(this.allNOM[i].name_nom) ==-1 && this.allNOM[i].name_nom.toLowerCase().indexOf(subString.toLowerCase()) != -1){
+        console.log(this.searchBarHelpList.indexOf( this.allNOM[i].name_nom) ==-1)
+        this.searchBarHelpList.push(this.allNOM[i].name_nom)
+      }
+    }
+
+
+  }
+
   textBarSearch(){
 
   }
 
   protected readonly Object = Object;
   protected readonly alert = alert;
+  protected readonly console = console;
 }
