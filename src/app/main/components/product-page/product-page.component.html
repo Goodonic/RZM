@@ -20,29 +20,6 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Категории
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Модели
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item ria-labelledby='navbarDropdown' " href="#">Паровозы</a>
-            <a class="dropdown-item" href="#">Электровозы</a>
-            <a class="dropdown-item" href="#">Что-то еще</a>
-          </div>
-
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Акции</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Контакты</a>
-      </li>
     </ul>
 
     <ul class="navbar-nav ml-auto">
@@ -86,15 +63,18 @@
           </table>
         </div>
         <!-- Правая колонка: Цена и кнопка "Добавить в корзину" -->
-        <div class="product-column product-right">
-          <div class="price">{{data.cash_nom}} ₽</div>
-          <div class="add-to-cart">
-            <button>Добавить в корзину</button>
-          </div>
-          <div class="payInOne">
-            <button>Купить в 1 клик</button>
+        <div class="payButtonContainer">
+          <div class="product-column product-right">
+            <div class="price">{{data.cash_nom}} ₽</div>
+            <div class="add-to-cart">
+              <button>Добавить в корзину</button>
+            </div>
+            <div class="payInOne">
+              <button>Купить в 1 клик</button>
+            </div>
           </div>
         </div>
+
       </section>
     </main>
   </div>
