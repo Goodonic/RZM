@@ -30,4 +30,8 @@ export class NameService {
     docRef.delete()
     /*console.log("del")*/
   }
+  async  addName(name:any) {
+    const docRef = await this.initBD.db.collection(this.collectionPath)
+    docRef.add({product_name: name})
+  }
 }

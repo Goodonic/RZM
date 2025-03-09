@@ -66,18 +66,8 @@ export class GroupService {
   }
 
 
-  async  addNewGRUPP(NewNOM:any) {
-    const docRef = this.initBD.db.collection(this.collectionPath).doc();
-    // {available_nom,bodymaid_nom,cash_nom,frontpic_nom,grupp_nom,name_nom,podgrupp_nom,scale_nom}
-    await docRef.set({
-      available_nom: NewNOM.available_nom,
-      bodymaid_nom: NewNOM.bodymaid_nom,
-      cash_nom: NewNOM.cash_nom,
-      frontpic_nom: NewNOM.frontpic_nom,
-      grupp_nom: NewNOM.grupp_nom,
-      name_nom: NewNOM.name_nom,
-      podgrupp_nom:NewNOM.podgrupp_nom,
-      scale_nom:NewNOM.scale_nom,
-    });
+  async  addGRUPP(name:any) {
+    const docRef = await this.initBD.db.collection(this.collectionPath)
+    docRef.add({grupp: name})
   }
 }

@@ -35,4 +35,9 @@ export class TypeService {
     docRef.delete()
     /*console.log("del")*/
   }
+
+  async  addType(name:any) {
+    const docRef = await this.initBD.db.collection(this.collectionPath)
+    docRef.add({product_type: name})
+  }
 }

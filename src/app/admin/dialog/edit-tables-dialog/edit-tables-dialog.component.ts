@@ -213,9 +213,7 @@ export class EditTablesDialogComponent {
 
 
   delete(name:string){
-    for (let i = 0; i < this.allNOM.length; i++){
 
-    }
     switch (this.tableName){
       case "Тип ПС":
           this.deleteGroup(name)
@@ -358,6 +356,44 @@ export class EditTablesDialogComponent {
       this.router.navigate([currentUrl]);
     })
   }*/
+
+  addDocument(name:string){
+    switch (this.tableName){
+      case "Тип ПС":
+        this.addGroup(name)
+        break
+      case "Категория":
+        this.addType(name)
+        break
+      case "Товар":
+        this.addPodGroup(name)
+        break
+      case "Масштаб":
+        this.addScale(name)
+        break
+      case "Изготовитель":
+        this.addBodyMaid(name)
+        break
+      case "Доступность":
+        this.addAvailable(name)
+        break
+      case "Название":
+        this.addName(name)
+        break
+    }
+  }
+
+  addGroup(name:string){
+    this.grupp.addGRUPP(name)
+  }
+  addType(name:string){
+    this.typeServise.addType(name)
+  }
+  addPodGroup(name:string){this.podGrupp.addPodGroup(name)}
+  addScale(name:string){this.nameService.addName(name)}
+  addBodyMaid(name:string){this.bodyMaid.addBodyMaid(name)}
+  addAvailable(name:string){this.available.addAvailable(name)}
+  addName(name:string){this.nameService.addName(name)}
 
   getAllNOMId(){
     return this.nom.getAllNOMID().then((snapshot)=>{

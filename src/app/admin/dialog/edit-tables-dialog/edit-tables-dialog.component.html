@@ -1,6 +1,6 @@
 <h3 class="title">Редактор таблиц</h3>
 <div>Выберите таблицу для редактирования</div>
-<select name="Название" [(ngModel)]="tableName" (change)="updateActiveTable()">
+<select #mode name="Название" [(ngModel)]="tableName" (change)="updateActiveTable()">
   <option value="" selected >Выбрать</option>
   <option value="Название">Название</option>
   <option value="Тип ПС"  >Тип ПС</option>
@@ -12,7 +12,11 @@
 </select>
 
 <h2 class="title">{{tableName}}</h2>
-
+<div *ngIf="mode.value != ''" style="margin-bottom: 20px; margin-left: 5%">
+  <div>Добавить новый документ</div>
+  <input #newDocument type="text">
+  <button (click)="addDocument(newDocument.value); reload()">добавить</button>
+</div>
 <div class="tableContainer">
   <div class="grid row" *ngFor="let data of Object.keys(activeTable)">
     {{data}}
