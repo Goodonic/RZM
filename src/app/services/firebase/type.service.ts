@@ -26,4 +26,13 @@ export class TypeService {
     return this.initBD.db.doc(ref).get();
   }
 
+  async updateTypeName(id:string, newName:string){
+    await this.initBD.db.doc(this.collectionPath+"/"+id).update({product_type: newName});
+  }
+
+  async deleteType(id: string) {
+    const docRef = this.initBD.db.doc(`${this.collectionPath}/${id}`);
+    docRef.delete()
+    /*console.log("del")*/
+  }
 }

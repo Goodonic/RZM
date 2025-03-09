@@ -1,0 +1,27 @@
+<h3 class="title">Редактор таблиц</h3>
+<div>Выберите таблицу для редактирования</div>
+<select name="Название" [(ngModel)]="tableName" (change)="updateActiveTable()">
+  <option value="" selected >Выбрать</option>
+  <option value="Название">Название</option>
+  <option value="Тип ПС"  >Тип ПС</option>
+  <option value="Категория"  >Категория</option>
+  <option value="Товар"  >Товар</option>
+  <option value="Масштаб"  >Масштаб</option>
+  <option value="Изготовитель"  >Изготовитель</option>
+  <option value="Доступность"  >Доступность</option>
+</select>
+
+
+<div class="tableContainer">
+  <div class="grid row" *ngFor="let data of Object.keys(activeTable)">
+    {{data}}
+    <button (click)="delete(data); reload()">Удалить</button>
+    <button (click)="rename(data, newName.value); reload()">Переименовать</button>
+    <input #newName type="text" placeholder="Новое название">
+  </div>
+</div>
+
+<div mat-dialog-actions class="dialog-actions "></div>
+
+
+

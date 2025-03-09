@@ -24,5 +24,13 @@ export class BodyMaidService {
     return this.initBD.db.doc(ref).get();
   }
 
+  async updateBodyMaidName(id:string, newName:string){
+    await this.initBD.db.doc(this.collectionPath+"/"+id).update({name_bodymaid: newName});
+  }
 
+  async deleteBodyMaid(id: string) {
+    const docRef = this.initBD.db.doc(`${this.collectionPath}/${id}`);
+    docRef.delete()
+    /*console.log("del")*/
+  }
 }

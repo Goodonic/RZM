@@ -22,4 +22,12 @@ export class NameService {
     console.log(ref)
     return this.initBD.db.doc(ref).get();
   }
+  async updateName(id:string, newName:string){
+    await this.initBD.db.doc(this.collectionPath+"/"+id).update({product_name: newName});
+  }
+  async deleteName(id: string) {
+    const docRef = this.initBD.db.doc(`${this.collectionPath}/${id}`);
+    docRef.delete()
+    /*console.log("del")*/
+  }
 }

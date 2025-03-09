@@ -29,4 +29,14 @@ export class PodgroupService {
     const dataSnapshot = (await this.initBD.db.doc(this.collectionPath + "/" + id).get());
     return dataSnapshot;
   }
+
+  async updatePodGroupName(id:string, newName:string){
+    await this.initBD.db.doc(this.collectionPath+"/"+id).update({name_podgrupp: newName});
+  }
+
+  async deletePodGroup(id: string) {
+    const docRef = this.initBD.db.doc(`${this.collectionPath}/${id}`);
+    docRef.delete()
+    /*console.log("del")*/
+  }
 }

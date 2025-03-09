@@ -22,4 +22,13 @@ export class ScaleService {
     console.log(ref)
     return this.initBD.db.doc(ref).get();
   }
+  async updateScaleName(id:string, newName:string){
+    await this.initBD.db.doc(this.collectionPath+"/"+id).update({product_scale: newName});
+  }
+
+  async deleteScale(id: string) {
+    const docRef = this.initBD.db.doc(`${this.collectionPath}/${id}`);
+    docRef.delete()
+    /*console.log("del")*/
+  }
 }

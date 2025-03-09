@@ -55,6 +55,15 @@ export class GroupService {
     return this.initBD.db.doc(ref).get();
   }
 
+  async updateGroupName(id:string, newName:string){
+    await this.initBD.db.doc(this.collectionPath+"/"+id).update({grupp: newName});
+  }
+
+  async deleteGroup(id: string) {
+    const docRef = this.initBD.db.doc(`${this.collectionPath}/${id}`);
+     docRef.delete()
+    /*console.log("del")*/
+  }
 
 
   async  addNewGRUPP(NewNOM:any) {

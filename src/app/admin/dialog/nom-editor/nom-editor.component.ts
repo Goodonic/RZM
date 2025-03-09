@@ -12,7 +12,7 @@ export interface NomData {
   available_nom: string;
   bodymaid_nom: string;
   cash_nom: string;
-  frontpic_nom: string[]; // массив строк
+  frontpic_nom: string[];
   grupp_nom: string;
   name_nom: string;
   podgrupp_nom: string;

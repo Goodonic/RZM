@@ -19,6 +19,7 @@ import {DescriptionDialogComponent} from './dialog/description-dialog/descriptio
 import {MatDialog} from '@angular/material/dialog';
 import {AddDescriptionDialogComponent} from './dialog/add-description-dialog/add-description-dialog.component';
 import {NomEditorComponent} from './dialog/nom-editor/nom-editor.component';
+import {EditTablesDialogComponent} from './dialog/edit-tables-dialog/edit-tables-dialog.component';
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
 @Component({
@@ -513,5 +514,18 @@ export class AdminComponent {
       }
     })
   }
+
+  openEditTableDialog(){
+    const dialogRef = this.dialog.open(EditTablesDialogComponent, {
+      width: '80%',
+      maxWidth: 'none',
+      height: '80%',
+      data: { allNOMID: this.allNOMID, allGroups:this.allGroups,
+        allPodGroups: this.allPodGroups, allBodyMaid: this.allBodyMaid,
+        allName: this.allName, allType: this.allType,
+        allAvailable: this.allAvailable, allNOM: this.allNOM, Filter: this.Filter2(), allScale: this.allScale}
+    });
+  }
+
   protected readonly Object = Object;
 }

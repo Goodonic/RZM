@@ -1,0 +1,52 @@
+/*----------*/
+/* Центрирование содержимого (при необходимости) */
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+table{
+  margin: 1lvh;
+}
+
+.title{
+  text-align: center;
+  margin-top: 1lvh;
+}
+.closeButton{
+  margin-left: 1lvw;
+  margin-right: 1lvw;
+}
+.deleteButtonContainer{
+  text-align: left;
+  margin-left: 1lvw;
+  margin-right: 1lvw;
+}
+
+.tableContainer{
+  width: 70%;
+  margin-left: 5%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr 1fr; /* три равные колонки */
+  align-items: start; /* выравнивание по вертикали */
+  gap: 5px; /* отступы между колонками */
+  margin-bottom: 10px; /* отступ между строками */
+}
+
+.row{
+  background-color: #d9d9d9;
+}
