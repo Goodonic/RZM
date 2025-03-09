@@ -11,6 +11,7 @@ export class ProductCardComponent {
   @Input() price: string=''; // Цена товара
   @Input() description: string=''; // Описание товара
   @Input() name: string=''; // Название товара
+  @Input() product: string=''; // Название товара
 
 
 }
