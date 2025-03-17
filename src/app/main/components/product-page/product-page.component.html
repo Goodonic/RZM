@@ -80,8 +80,8 @@
   </div>
   <div class="recommendationListContainer">
     <div class="recommendationList" *ngIf="filteredNOM.length > 0">
-      <div style="height: 250px; width: 200px" *ngFor="let product of filteredNOM">
-        <app-product-card style="color: black" (click)="sendProductPageData(product.id)" class="card"
+      <div style="height: 250px; width: 200px" *ngFor="let product of filteredNOM" >
+        <app-product-card style="color: black"  class="card" (click)="sendProductPageData(product.id)"
                           [image]="product.frontpic_nom"
                           [price]="product.cash_nom"
                           [description]="product.description"

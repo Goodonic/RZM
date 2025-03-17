@@ -266,5 +266,23 @@ export class ProductPageComponent {
 
   sendProductPageData(productId:string){
     this.router.navigate(['/product/'+productId]);
+    this.id = '';
+    this.data = {};
+
+    this.filteredNOM = [];
+    this.filterObj = {
+      available_nom: [],
+      bodymaid_nom: [],
+      cash_nom: [],
+      grupp_nom: [],
+      name_nom: [],
+      podgrupp_nom: [],
+      scale_nom: [],
+      recommendation_nom: "",
+      product_type: []
+    }
+    this.allNOM = [];
+    this.allNOMID = [];
+    this.ngOnInit()
   }
 }
