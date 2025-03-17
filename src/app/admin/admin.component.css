@@ -5,9 +5,11 @@ table {
 
 th, td {
   padding: 10px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ddd;
 }
+
+
 
 th {
   background-color: #f2f2f2;
@@ -30,10 +32,6 @@ mat-form-field {
   display: none;
 }
 
-.firstTd {
-  width: 300px; /* Ширина ячейки */
-  height: 50px; /* Высота ячейки */
-}
 
 td{
   width: 200px;
@@ -59,10 +57,50 @@ td{
 }
 
 .addTableContainer{
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
 
 }
 .addProductTable{
   max-width: 100%;
+}
+
+.tableCell{
+  width: 100%;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.aligned-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* фиксированное распределение столбцов */
+  margin-bottom: 20px; /* отступ между таблицами */
+}
+
+.aligned-table th,
+.aligned-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+.aligned-table th {
+  background-color: #f2f2f2;
+}
+
+/* Если используются изображения, ограничим их размер */
+.aligned-table img {
+  max-width: 50px;
+  height: auto;
+}
+
+/* Класс для ячеек с элементами управления */
+.tableCell {
+  width: 100%;
+  box-sizing: border-box;
 }

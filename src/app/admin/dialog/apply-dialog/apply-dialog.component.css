@@ -1,0 +1,19 @@
+/* Центрируем текст в содержимом диалога */
+.dialog-content {
+  text-align: center;
+  margin-left: 5%;
+  margin-top: 4%;
+}
+
+/* Центрируем кнопки в области действий */
+.dialog-actions {
+  display: flex;
+  justify-content: right;
+}
+
+
+.closeButton{
+  margin-left: 5px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}

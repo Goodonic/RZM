@@ -39,6 +39,7 @@ export class NOMService {
      NewNOM.product_type = this.initBD.db.doc(NewNOM.product_type)
      NewNOM.name_nom = this.initBD.db.doc(NewNOM.name_nom)
      NewNOM.scale_nom = this.initBD.db.doc(NewNOM.scale_nom)
+     NewNOM.recommendation_nom = this.initBD.db.doc(NewNOM.recommendation_nom)
      // console.log(NewNOM.name_nom)
 
     await docRef.set({
@@ -52,6 +53,7 @@ export class NOMService {
       product_type:NewNOM.product_type,
       scale_nom:NewNOM.scale_nom,
       description:NewNOM.description,
+      recommendation_nom: NewNOM.recommendation_nom
     });
   }
 
@@ -64,6 +66,7 @@ export class NOMService {
     editNom.product_type = this.initBD.db.doc(editNom.product_type)
     editNom.name_nom = this.initBD.db.doc(editNom.name_nom)
     editNom.scale_nom = this.initBD.db.doc(editNom.scale_nom)
+    editNom.recommendation_nom = this.initBD.db.doc(editNom.recommendation_nom)
 
     await docRef.update(editNom)
   }

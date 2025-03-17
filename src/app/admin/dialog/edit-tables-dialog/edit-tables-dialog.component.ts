@@ -16,6 +16,8 @@ import {AvailableService} from '../../../services/firebase/available.service';
 import {ScaleService} from '../../../services/firebase/scale.service';
 import {Router} from '@angular/router';
 import {forkJoin, take} from 'rxjs';
+import {ApplyDialogComponent} from '../apply-dialog/apply-dialog.component';
+import {RecommendationsService} from '../../../services/recommendations.service';
 
 
 interface IData{
@@ -27,6 +29,7 @@ interface IData{
   allType:any
   allAvailable:any
   allNOM:any
+  allRec:any
   allScale:any
   Filter:any
 }
@@ -49,6 +52,7 @@ export class EditTablesDialogComponent {
   allAvailable:any
   allNOM:any[]
   allScale:any
+  allRec:any
   Filter:any
 
   tableName:string
@@ -66,6 +70,7 @@ export class EditTablesDialogComponent {
               private typeServise: TypeService,
               private available: AvailableService,
               private scale: ScaleService,
+              private rec: RecommendationsService,
               private dialog: MatDialog,
               private router: Router) {
     this.allNOMID = data.allNOMID
@@ -78,6 +83,7 @@ export class EditTablesDialogComponent {
     this.allNOM = data.allNOM
     this.Filter = data.Filter
     this.allScale = data.allScale
+    this.allRec = data.allRec
     this.tableName = ""
     this.activeTable = []
   }
@@ -88,9 +94,9 @@ export class EditTablesDialogComponent {
 
         forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id),
           this.getBodyMaidById(id),this.getAvailableById(id),
-          this.getNameById(id), this.getScaleById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
+          this.getNameById(id), this.getScaleById(id), this.getRecById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
                                                                                   typeData, bodyMaidData, availableData,
-                                                                                  nameData, scaleData])=>{
+                                                                                  nameData, scaleData, recData])=>{
           let product = this.toJSON(productData)
           product.id = id
 
@@ -102,6 +108,7 @@ export class EditTablesDialogComponent {
           product.name_nom = this.toJSON(nameData).product_name
           console.log(this.toJSON(scaleData).product_scale)
           product.scale_nom = this.toJSON(scaleData).product_scale
+          product.recommendation_nom = this.toJSON(recData).recGroupName
           // product.discription = this.toJSON(scaleData).product_scale
           // console.log(bodyMaidData)
           // product.grupp_nom = this.toJSON(groupData).grupp
@@ -117,6 +124,7 @@ export class EditTablesDialogComponent {
     this.getAllType()
     this.getAllAvailable()
     this.getAllScale()
+    this.getAllRec()
   }
 
   updateActiveTable(){
@@ -136,6 +144,9 @@ export class EditTablesDialogComponent {
         break
       case "Масштаб":
         this.activeTable = this.allScale
+        break
+      case "Группы рекомендаций":
+        this.activeTable = this.allRec
         break
       case "Изготовитель":
         this.activeTable = this.allBodyMaid
@@ -168,6 +179,9 @@ export class EditTablesDialogComponent {
         case "Масштаб":
           this.renameScale(oldName, newName)
           break
+        case "Группы рекомендаций":
+          this.renameRec(oldName, newName)
+          break
         case "Изготовитель":
           this.renameBodyMaid(oldName, newName)
           break
@@ -198,6 +212,10 @@ export class EditTablesDialogComponent {
     let id = this.allScale[oldName]
     this.scale.updateScaleName(id, newName)
   }
+  renameRec(oldName:string,newName:string){
+    let id = this.allRec[oldName]
+    this.rec.updateRecommendationName(id, newName)
+  }
   renameName(oldName:string,newName:string){
     let id = this.allName[oldName]
     this.nameService.updateName(id, newName)
@@ -211,7 +229,21 @@ export class EditTablesDialogComponent {
     this.typeServise.updateTypeName(id, newName)
   }
 
+  openConfirmDialog(name:string){
+    const dialogRef = this.dialog.open(ApplyDialogComponent, {
+      width: '25%',
+      maxWidth: 'none',
+      height: '15%',
+      data: { message: "Вы уверены, что хотите удалить компонент?"}
+    });
 
+    dialogRef.afterClosed().subscribe(result=>{
+      if (result.data){
+        this.delete(name)
+        this.reload()
+      }
+    })
+  }
   delete(name:string){
 
     switch (this.tableName){
@@ -226,6 +258,9 @@ export class EditTablesDialogComponent {
         break
       case "Масштаб":
         this.deleteScale(name)
+        break
+      case "Группы рекомендаций":
+        this.deleteRec(name)
         break
       case "Изготовитель":
         this.deleteBodyMaid(name)
@@ -301,6 +336,21 @@ export class EditTablesDialogComponent {
       alert("Существуют привязанные товары")
     }
   }
+  deleteRec(name:string){
+    let key = true;
+    this.allNOM.forEach((product:any, index:any, arr:any)=>{
+      console.log(product.recommendation_nom)
+      if(product.recommendation_nom == name) {
+        key = false
+      }
+    })
+    if(key){
+      this.rec.deleteRecommendation(this.allRec[name])
+    }
+    else {
+      alert("Существуют привязанные товары")
+    }
+  }
   deleteBodyMaid(name:string){
     let key = true;
     this.allNOM.forEach((product:any, index:any, arr:any)=>{
@@ -348,14 +398,6 @@ export class EditTablesDialogComponent {
       alert("Существуют привязанные товары")
     }
   }
-/*  reload(){
-    const currentUrl = this.router.url;
-    // Переход на временный маршрут, не изменяя URL (skipLocationChange)
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      // Возвращение на исходный маршрут
-      this.router.navigate([currentUrl]);
-    })
-  }*/
 
   addDocument(name:string){
     switch (this.tableName){
@@ -370,6 +412,9 @@ export class EditTablesDialogComponent {
         break
       case "Масштаб":
         this.addScale(name)
+        break
+      case "Группы рекомендаций":
+        this.addRec(name)
         break
       case "Изготовитель":
         this.addBodyMaid(name)
@@ -390,7 +435,8 @@ export class EditTablesDialogComponent {
     this.typeServise.addType(name)
   }
   addPodGroup(name:string){this.podGrupp.addPodGroup(name)}
-  addScale(name:string){this.nameService.addName(name)}
+  addScale(name:string){this.scale.addScale(name)}
+  addRec(name:string){this.rec.addRecommendation(name)}
   addBodyMaid(name:string){this.bodyMaid.addBodyMaid(name)}
   addAvailable(name:string){this.available.addAvailable(name)}
   addName(name:string){this.nameService.addName(name)}
@@ -495,6 +541,17 @@ export class EditTablesDialogComponent {
       );
     })
   }
+  getAllRec(){
+    return this.rec.getAllRECOMMENDATIONID().then((snapshot)=>{
+
+      snapshot.forEach((doc) => {
+          let recName = this.toJSON(doc).recGroupName
+          let recId = doc.id
+          this.allRec[recName] = recId;
+        }
+      );
+    })
+  }
 
   getNOMById(id:string){
     // console.log(this.allNOM)
@@ -581,6 +638,15 @@ export class EditTablesDialogComponent {
       return this.scale.getScaleByRef(ref)
     })
   }
+  async getRecById(id:string){
+    return this.getNOMById(id).then((data)=>{
+
+      let product = this.toJSON(data)
+      console.log(product)
+      let ref = product.recommendation_nom._delegate._key.path.segments
+      return this.rec.getRecommendationByRef(ref)
+    })
+  }
 
   reload(){
     this.allNOMID = []
@@ -593,6 +659,7 @@ export class EditTablesDialogComponent {
     this.allNOM = []
     this.Filter = []
     this.allScale = []
+    this.allRec = []
 
 
     this.getAllNOMId().then(()=>{
@@ -600,9 +667,9 @@ export class EditTablesDialogComponent {
 
         forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id),
           this.getBodyMaidById(id),this.getAvailableById(id),
-          this.getNameById(id), this.getScaleById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
+          this.getNameById(id), this.getScaleById(id), this.getRecById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
                                                                                   typeData, bodyMaidData, availableData,
-                                                                                  nameData, scaleData])=>{
+                                                                                  nameData, scaleData, recData])=>{
           let product = this.toJSON(productData)
           product.id = id
 
@@ -614,6 +681,7 @@ export class EditTablesDialogComponent {
           product.name_nom = this.toJSON(nameData).product_name
           console.log(this.toJSON(scaleData).product_scale)
           product.scale_nom = this.toJSON(scaleData).product_scale
+          product.recommendation_nom = this.toJSON(recData).recGroupName
           // product.discription = this.toJSON(scaleData).product_scale
           // console.log(bodyMaidData)
           // product.grupp_nom = this.toJSON(groupData).grupp
@@ -629,6 +697,7 @@ export class EditTablesDialogComponent {
     this.getAllType()
     this.getAllAvailable()
     this.getAllScale()
+    this.getAllRec()
 
     this.updateActiveTable()
   }

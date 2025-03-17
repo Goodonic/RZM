@@ -17,6 +17,7 @@ export interface NomData {
   name_nom: string;
   podgrupp_nom: string;
   scale_nom: string;
+  recommendation_nom:string;
   product_type: string;
   description: string;
   },
@@ -27,6 +28,7 @@ export interface NomData {
   allType:any,
   allAvailable:any,
   allScale:any,
+  allRec:any
 
 }
 @Component({
@@ -58,14 +60,18 @@ export class NomEditorComponent {
       name_nom: data.editNom.name_nom,
       podgrupp_nom: data.editNom.podgrupp_nom,
       scale_nom: data.editNom.scale_nom,
+      recommendation_nom: data.editNom.recommendation_nom,
       product_type: data.editNom.product_type,
       description: data.editNom.description
     };
+
 
   }
 
   ngOnInit(){
     console.log(this.data)
+    console.log("Work?")
+    console.log(this.formData)
   }
   openAddDescriptionDialog(){
     const dialogRef = this.dialog.open(AddDescriptionDialogComponent,{ width: '50lvw',
@@ -101,7 +107,8 @@ export class NomEditorComponent {
 
   // Метод вызывается при нажатии кнопки "Сохранить"
   onSave(): void {
-
+    console.log("Work")
+    console.log(this.formData)
     this.dialogRef.close({id:this.data.Id, data:this.formData});
   }
 

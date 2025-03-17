@@ -44,6 +44,7 @@ export class MainComponent {
     name_nom: [],
     podgrupp_nom:[],
     scale_nom:[],
+    recommendation_nom:[],
     product_type:[]
   }
 

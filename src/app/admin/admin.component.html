@@ -3,8 +3,24 @@
 </div>
 <div class="addTableContainer">
   <table class="addProductTable">
+    <colgroup>
+      <col style="width: 5%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 5%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+    </colgroup>
     <thead>
     <tr>
+      <th class="addTable">Авто</th>
       <th class="addTable">Название</th>
       <th class="addTable">Тип ПС</th>
       <th class="addTable">Категория</th>
@@ -12,30 +28,34 @@
       <th class="addTable">Масштаб</th>
       <th class="addTable">Изготовитель</th>
       <th class="addTable">Доступность</th>
+      <th class="addTable">Группа рек</th>
       <th class="addTable">Цена</th>
       <th class="addTable">Описание</th>
       <th class="addTable">Изображение</th>
-      <th class="addTable"></th>
+      <th class="addTable">Действие</th>
     </tr>
     </thead>
     <tbody>
     <tr>
+      <td class="addTable">Авто</td>
       <td class="addTable">
-        <select name="Название" [(ngModel)]="newNOM.name_nom">
+        <select class="tableCell" name="Название" [(ngModel)]="newNOM.name_nom">
           <option value="" selected >Выбрать</option>
           <option *ngFor="let group of Object.keys(allName)" >
             {{group}}
           </option>
         </select>
       </td >
-      <td class="addTable"><select name="Группа" [(ngModel)]="newNOM.grupp_nom">>
+      <td class="addTable">
+        <select class="tableCell" name="Группа" [(ngModel)]="newNOM.grupp_nom">
         <option value="" selected disabled hidden>Выбрать</option>
         <option *ngFor="let group of Object.keys(this.allGroups)" >
           {{group}}
         </option>
       </select>
       </td>
-      <td class="addTable"><select name="Тип" [(ngModel)]="newNOM.product_type">
+      <td class="addTable">
+        <select class="tableCell" name="Тип" [(ngModel)]="newNOM.product_type">
         <option value="" selected disabled hidden>Выбрать</option>
         <option *ngFor="let group of Object.keys(allType)">
           {{group}}
@@ -45,7 +65,7 @@
 
       <!--    allGroups[product.grupp_nom]-->
       <td class="addTable">
-        <select name="Подгруппа" [(ngModel)]="newNOM.podgrupp_nom">>
+        <select class="tableCell" name="Подгруппа" [(ngModel)]="newNOM.podgrupp_nom">>
           <option value="" selected disabled hidden>Выбрать</option>
           <option *ngFor="let group of Object.keys(allPodGroups)" >
             {{group}}
@@ -53,7 +73,7 @@
         </select>
       </td>
       <td class="addTable">
-        <select name="Подгруппа" [(ngModel)]="newNOM.scale_nom">>
+        <select class="tableCell" name="Подгруппа" [(ngModel)]="newNOM.scale_nom">>
           <option value="" selected disabled hidden>Выбрать</option>
           <option *ngFor="let group of Object.keys(allScale)" >
             {{group}}
@@ -61,7 +81,7 @@
         </select>
       </td>
       <td class="addTable">
-        <select name="Изготовитель" [(ngModel)]="newNOM.bodymaid_nom">
+        <select class="tableCell" name="Изготовитель" [(ngModel)]="newNOM.bodymaid_nom">
           <option value="" selected disabled hidden>Выбрать</option>
           <option *ngFor="let group of Object.keys(allBodyMaid)" >
             {{group}}
@@ -69,7 +89,7 @@
         </select>
       </td>
       <td class="addTable">
-        <select name="Доступность" [(ngModel)]="newNOM.available_nom">
+        <select class="tableCell" name="Доступность" [(ngModel)]="newNOM.available_nom">
           <option value="" selected >Все</option>
           <option *ngFor="let group of Object.keys(allAvailable)" >
             {{group}}
@@ -77,10 +97,18 @@
         </select>
       </td>
       <td class="addTable">
-        <input [(ngModel)]="newNOM.cash_nom" type="number">
+        <select class="tableCell" name="Группы рекомендаций" [(ngModel)]="newNOM.recommendation_nom">
+          <option value="" selected >Выбрать</option>
+          <option *ngFor="let group of Object.keys(allRecGroup)" >
+            {{group}}
+          </option>
+        </select>
+      </td >
+      <td class="addTable">
+        <input class="tableCell" [(ngModel)]="newNOM.cash_nom" type="number">
       </td>
       <td class="addTable">
-        <button (click)="openAddDescriptionDialog()">Добавить описание</button>
+        <button class="tableCell" (click)="openAddDescriptionDialog()">Добавить</button>
       </td>
       <td class="addTable">
         <input  type="file"
@@ -90,7 +118,7 @@
                 (change)="onFileSelected($event)">
       </td>
       <td class="addTable">
-        <button (click)="addNewNOM(newNOM)">Добавить</button>
+        <button class="tableCell" (click)="addNewNOM(newNOM)">Добавить</button>
       </td>
     </tr>
     </tbody>
@@ -98,93 +126,25 @@
 
 </div>
 
-<!--Поиск-->
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Название</th>
-    <th>Тип ПС</th>
-    <th>Категория</th>
-    <th>Товар</th>
-    <th>Масштаб</th>
-    <th>Изготовитель</th>
-    <th>Доступность</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Авто</td>
-    <td>
-      <!--<input [(ngModel)]="filterObj.name_nom" type="text">-->
-      <select name="Название" [(ngModel)]="filterObj.name_nom" id="filterName"  (change)="Filter2()">
-        <option value="" selected> Все</option>
-        <option *ngFor="let group of Object.keys(allName)" value="{{group}}">
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td><select name="Группа" [(ngModel)]="filterObj.grupp_nom" (change)="Filter2()" id="filterGroup">
-      <option value="" selected>Все</option>
-      <option *ngFor="let group of Object.keys(this.allGroups)" >
-        {{group}}
-      </option>
-    </select>
-    </td>
-    <td>
-      <select name="Тип" [(ngModel)]="filterObj.product_type" id="filterType" (change)="Filter2()">
-        <option value="" selected >Все</option>
-        <option *ngFor="let group of Object.keys(allType)">
-          {{group}}
-        </option>
-      </select>
-    </td>
-
-    <!--    allGroups[product.grupp_nom]-->
-    <td>
-      <select name="Подгруппа" [(ngModel)]="filterObj.podgrupp_nom" id="filterPodGroup" (change)="Filter2()">
-        <option value="" selected > Все</option>
-        <option *ngFor="let group of Object.keys(allPodGroups)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td>
-      <select name="Подгруппа" [(ngModel)]="filterObj.scale_nom">>
-      <option value="" selected disabled hidden>Выбрать</option>
-      <option *ngFor="let group of Object.keys(allScale)" >
-        {{group}}
-      </option>
-    </select>
-    </td>
-    <td>
-<!--      <input [(ngModel)]="newNOM.bodymaid_nom" type="text">-->
-          <select name="Изготовитель" [(ngModel)]="filterObj.bodymaid_nom" (change)="Filter2()">
-            <option value="" selected >Все</option>
-            <option *ngFor="let group of Object.keys(allBodyMaid)" >
-              {{group}}
-            </option>
-          </select>
-    </td>
-    <td>
-<!--      <input [(ngModel)]="newNOM.available_nom" type="number" id="filterAvailable" (change)="Filter2()">-->
-      <select name="Доступность" [(ngModel)]="filterObj.available_nom" (change)="Filter2()">
-        <option value="" selected >Все</option>
-        <option *ngFor="let group of Object.keys(allAvailable)" >
-          {{group}}
-        </option>
-      </select>
-    </td>
-    <td>
-      <button (click)="reserFilter()"> Сброс</button>
-    </td>
-  </tr>
-
-  </tbody>
-</table>
-<div>
-  <table id="nomTable">
+<!-- Контейнер для обеих таблиц -->
+<div class="table-container">
+  <!-- Таблица фильтров -->
+  <table class="aligned-table">
+    <colgroup>
+      <col style="width: 5%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 5%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+    </colgroup>
     <thead>
     <tr>
       <th>ID</th>
@@ -193,36 +153,140 @@
       <th>Категория</th>
       <th>Товар</th>
       <th>Масштаб</th>
+      <th>Группы рек</th>
       <th>Изготовитель</th>
       <th>Доступность</th>
       <th>Цена</th>
       <th>Описание</th>
       <th>Изображение</th>
+      <th>Действие</th>
     </tr>
     </thead>
     <tbody>
-<!--    [class.hidden]="Filter(product)"-->
-<!--    [class.visible]="!emptyFilter() "-->
-      <tr *ngFor="let product of filteredNOM">
-        <td class="nomId">{{product.id}}</td>
-        <td>{{product.name_nom}}</td>
-        <td>{{product.grupp_nom}}</td>
-        <td>{{product.product_type}}</td>
-        <td>{{product.podgrupp_nom }}</td>
-        <td>{{product.scale_nom}}</td>
-        <td>{{product.bodymaid_nom}}</td>
-        <td>{{product.available_nom}}</td>
-        <td>{{product.cash_nom}}</td>
-        <td>
-          <div class="disDialogB">
-            <a (click)="openDescriptionDialog(product.description)">{{product.description}}</a>
-          </div>
-        </td>
-        <td><img src="{{product.frontpic_nom}}" alt="Image"></td>
-        <td><button (click)="openEditorDialog(product.id, product)">Редактировать</button></td>
-      </tr>
+    <tr>
+      <td>Авто</td>
+      <td>
+        <select class="tableCell" name="Название" [(ngModel)]="filterObj.name_nom" id="filterName" (change)="Filter2()">
+          <option value="" selected>Все</option>
+          <option *ngFor="let group of Object.keys(allName)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Группа" [(ngModel)]="filterObj.grupp_nom" id="filterGroup" (change)="Filter2()">
+          <option value="" selected>Все</option>
+          <option *ngFor="let group of Object.keys(allGroups)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Тип" [(ngModel)]="filterObj.product_type" id="filterType" (change)="Filter2()">
+          <option value="" selected>Все</option>
+          <option *ngFor="let group of Object.keys(allType)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Подгруппа" [(ngModel)]="filterObj.podgrupp_nom" id="filterPodGroup" (change)="Filter2()">
+          <option value="" selected>Все</option>
+          <option *ngFor="let group of Object.keys(allPodGroups)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Масштаб" [(ngModel)]="filterObj.scale_nom">
+          <option value="" selected disabled hidden>Выбрать</option>
+          <option *ngFor="let group of Object.keys(allScale)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Группы рекомендаций" [(ngModel)]="filterObj.recommendation_nom">
+          <option value="" selected disabled hidden>Выбрать</option>
+          <option *ngFor="let group of Object.keys(allRecGroup)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Изготовитель" [(ngModel)]="filterObj.bodymaid_nom" (change)="Filter2()">
+          <option value="" selected>Все</option>
+          <option *ngFor="let group of Object.keys(allBodyMaid)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <select class="tableCell" name="Доступность" [(ngModel)]="filterObj.available_nom" (change)="Filter2()">
+          <option value="" selected>Все</option>
+          <option *ngFor="let group of Object.keys(allAvailable)" [value]="group">{{group}}</option>
+        </select>
+      </td>
+      <td>
+        <!-- Фильтр по цене (при необходимости) -->
+      </td>
+      <td>
+        <!-- Фильтр по описанию -->
+      </td>
+      <td>
+        <!-- Фильтрация по изображению не обязательна -->
+      </td>
+      <td>
+        <button class="tableCell" (click)="reserFilter()">Сброс</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Таблица данных -->
+  <table id="nomTable" class="aligned-table">
+    <colgroup>
+      <col style="width: 5%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 5%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+      <col style="width: 10%;">
+    </colgroup>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Название</th>
+      <th>Тип ПС</th>
+      <th>Категория</th>
+      <th>Товар</th>
+      <th>Масштаб</th>
+      <th>Группа рек</th>
+      <th>Изготовитель</th>
+      <th>Доступность</th>
+      <th>Цена</th>
+      <th>Описание</th>
+      <th>Изображение</th>
+      <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of filteredNOM">
+      <td class="nomId">{{product.id}}</td>
+      <td>{{product.name_nom}}</td>
+      <td>{{product.grupp_nom}}</td>
+      <td>{{product.product_type}}</td>
+      <td>{{product.podgrupp_nom}}</td>
+      <td>{{product.scale_nom}}</td>
+      <td>{{product.recommendation_nom}}</td>
+      <td>{{product.bodymaid_nom}}</td>
+      <td>{{product.available_nom}}</td>
+      <td>{{product.cash_nom}}</td>
+      <td>
+        <div class="disDialogB">
+          <a (click)="openDescriptionDialog(product.description)">{{product.description}}</a>
+        </div>
+      </td>
+      <td><img src="{{product.frontpic_nom}}" alt="Image"></td>
+      <td><button (click)="openEditorDialog(product.id, product)">Редактировать</button></td>
+    </tr>
     </tbody>
   </table>
 </div>
+
+
 
 

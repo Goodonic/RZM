@@ -7,6 +7,7 @@
   <option value="Категория"  >Категория</option>
   <option value="Товар"  >Товар</option>
   <option value="Масштаб"  >Масштаб</option>
+  <option value="Группы рекомендаций"  >Группы рекомендаций</option>
   <option value="Изготовитель"  >Изготовитель</option>
   <option value="Доступность"  >Доступность</option>
 </select>
@@ -20,7 +21,7 @@
 <div class="tableContainer">
   <div class="grid row" *ngFor="let data of Object.keys(activeTable)">
     {{data}}
-    <button (click)="delete(data); reload()">Удалить</button>
+    <button (click)="openConfirmDialog(data)">Удалить</button>
     <button (click)="rename(data, newName.value); reload()">Переименовать</button>
     <input #newName type="text" placeholder="Новое название">
   </div>

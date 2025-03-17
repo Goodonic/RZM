@@ -20,6 +20,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {AddDescriptionDialogComponent} from './dialog/add-description-dialog/add-description-dialog.component';
 import {NomEditorComponent} from './dialog/nom-editor/nom-editor.component';
 import {EditTablesDialogComponent} from './dialog/edit-tables-dialog/edit-tables-dialog.component';
+import {RecommendationsService} from '../services/recommendations.service';
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
 @Component({
@@ -38,7 +39,7 @@ export class AdminComponent {
   allAvailable:any={};
   allScale:any={};
   allNOM:any[]=[];
-
+  allRecGroup:any={}
   filteredNOM:any;
   NOMGroup:string='';
 
@@ -53,6 +54,7 @@ export class AdminComponent {
     scale_nom:'',
     product_type:'',
     description:'',
+    recommendation_nom:'',
 }
   filterObj:any={
     available_nom: '',
@@ -63,7 +65,8 @@ export class AdminComponent {
     name_nom: '',
     podgrupp_nom:'',
     scale_nom:'',
-    product_type:''
+    product_type:'',
+    recommendation_nom:''
   }
   // Поля сортировка
   name:string = ''
@@ -87,7 +90,7 @@ export class AdminComponent {
               private typeServise: TypeService,
               private available: AvailableService,
               private scale: ScaleService,
-
+              private rec: RecommendationsService,
               private dialog: MatDialog,
   ) {
   }
@@ -98,9 +101,9 @@ export class AdminComponent {
 
           forkJoin(this.getNOMById(id), this.getGroupById(id), this.getPodGroupById(id), this.getTypeById(id),
             this.getBodyMaidById(id),this.getAvailableById(id),
-            this.getNameById(id), this.getScaleById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
+            this.getNameById(id), this.getScaleById(id), this.getRecById(id)).pipe(take(2)).subscribe(([productData, groupData,podGroupData,
                                                                                               typeData, bodyMaidData, availableData,
-                                                                                              nameData, scaleData])=>{
+                                                                                              nameData, scaleData, recData])=>{
             let product = this.toJSON(productData)
             product.id = id
 
@@ -110,8 +113,10 @@ export class AdminComponent {
             product.bodymaid_nom = this.toJSON(bodyMaidData).name_bodymaid
             product.available_nom = this.toJSON(availableData).name_available
             product.name_nom = this.toJSON(nameData).product_name
-            console.log(this.toJSON(scaleData).product_scale)
+
             product.scale_nom = this.toJSON(scaleData).product_scale
+            console.log(this.toJSON(recData).recGroupName)
+            product.recommendation_nom = this.toJSON(recData).recGroupName
             // product.discription = this.toJSON(scaleData).product_scale
             // console.log(bodyMaidData)
             // product.grupp_nom = this.toJSON(groupData).grupp
@@ -127,6 +132,7 @@ export class AdminComponent {
       this.getAllType()
       this.getAllAvailable()
       this.getAllScale()
+      this.getAllRec()
     // console.log(this.filterObj)
   }
   getAllNOMId(){
@@ -229,6 +235,18 @@ export class AdminComponent {
       );
     })
   }
+  getAllRec(){
+    return this.rec.getAllRECOMMENDATIONID().then((snapshot)=>{
+
+      snapshot.forEach((doc) => {
+          let recName = this.toJSON(doc).recGroupName
+          let recId = doc.id
+          console.log(this.toJSON(doc))
+          this.allRecGroup[recName] = recId;
+        }
+      );
+    })
+  }
 
   getNOMById(id:string){
     // console.log(this.allNOM)
@@ -316,6 +334,16 @@ export class AdminComponent {
     })
   }
 
+  async getRecById(id:string){
+    return this.getNOMById(id).then((data)=>{
+
+      let product = this.toJSON(data)
+      console.log(product)
+      let ref = product.recommendation_nom._delegate._key.path.segments
+      return this.rec.getRecommendationByRef(ref)
+    })
+  }
+
   // async getPodGroupsByGroup(groupName:string, mode:string){
   //   if (mode  == 'N'){
   //     this.podGroupsByGroup = []
@@ -381,7 +409,8 @@ export class AdminComponent {
       this.allName?.[NOM.name_nom] == null ||
       this.allType?.[NOM.product_type] == null ||
       this.allScale?.[NOM.scale_nom] == null ||
-      this.allAvailable?.[NOM.available_nom] == null)
+      this.allAvailable?.[NOM.available_nom] == null ||
+      this.allRecGroup?.[NOM.recommendation_nom] == null)
     ){
       NOM.podgrupp_nom = '/rootrecord/PRIMARY/PODGRUPP/'+this.allPodGroups[NOM.podgrupp_nom]
       NOM.grupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[NOM.grupp_nom]
@@ -390,6 +419,7 @@ export class AdminComponent {
       NOM.name_nom = '/rootrecord/PRIMARY/NAME/'+this.allName[NOM.name_nom]
       NOM.product_type = '/rootrecord/PRIMARY/PRODUCTTYPE/'+this.allType[NOM.product_type]
       NOM.scale_nom = '/rootrecord/PRIMARY/SCALE/'+this.allScale[NOM.scale_nom]
+      NOM.recommendation_nom = '/rootrecord/PRIMARY/RECOMMENDATION/'+this.allRecGroup[NOM.recommendation_nom]
 
       this.nom.addNewNOM(NOM)
       const currentUrl = this.router.url;
@@ -429,7 +459,8 @@ export class AdminComponent {
        (filter.podgrupp_nom ? element.podgrupp_nom == filter.podgrupp_nom : true) &&
         (filter.bodymaid_nom ? element.bodymaid_nom == filter.bodymaid_nom : true) &&
         (filter.product_type ? element.product_type == filter.product_type : true) &&
-        (filter.available_nom ? element.available_nom == filter.available_nom : true)
+        (filter.available_nom ? element.available_nom == filter.available_nom : true) &&
+        (filter.recommendation_nom ? element.recommendation_nom == filter.recommendation_nom : true)
     })
 
     // console.log(this.filteredNOM)
@@ -470,11 +501,73 @@ export class AdminComponent {
         allType:this.allType,
         allAvailable:this.allAvailable,
         allScale:this.allScale,
+        allRec:this.allRecGroup,
       }
     });
 
     dialogRef.afterClosed().subscribe(result=>{
       if(result.mode == "delete"){
+        console.log(result.id)
+        this.nom.deleteNom(result.id)
+        const currentUrl = this.router.url;
+        // Переход на временный маршрут, не изменяя URL (skipLocationChange)
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          // Возвращение на исходный маршрут
+          this.router.navigate([currentUrl]);
+        });
+      }
+      if (result && result!="delete"){
+        console.log(result)
+        if (
+          !(this.allPodGroups?.[ result.data.podgrupp_nom] == null ||
+            this.allGroups?.[ result.data.grupp_nom] == null ||
+            this.allBodyMaid?.[ result.data.bodymaid_nom] == null ||
+            this.allName?.[ result.data.name_nom] == null ||
+            this.allType?.[ result.data.product_type] == null ||
+            this.allScale?.[ result.data.scale_nom] == null ||
+            this.allRecGroup?.[ result.data.recommendation_nom] == null ||
+            this.allAvailable?.[ result.data.available_nom] == null)
+        ){
+          result.data.podgrupp_nom = '/rootrecord/PRIMARY/PODGRUPP/'+this.allPodGroups[ result.data.podgrupp_nom]
+          result.data.grupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[ result.data.grupp_nom]
+          result.data.available_nom = '/rootrecord/PRIMARY/AVAILABLE/'+this.allAvailable[ result.data.available_nom]
+          result.data.bodymaid_nom = '/rootrecord/PRIMARY/BODYMAID/'+this.allBodyMaid[ result.data.bodymaid_nom]
+          result.data.name_nom = '/rootrecord/PRIMARY/NAME/'+this.allName[ result.data.name_nom]
+          result.data.product_type = '/rootrecord/PRIMARY/PRODUCTTYPE/'+this.allType[ result.data.product_type]
+          result.data.scale_nom = '/rootrecord/PRIMARY/SCALE/'+this.allScale[ result.data.scale_nom]
+          result.data.recommendation_nom = '/rootrecord/PRIMARY/RECOMMENDATION/'+this.allRecGroup[ result.data.recommendation_nom]
+
+          const currentUrl = this.router.url;
+          // Переход на временный маршрут, не изменяя URL (skipLocationChange)
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            // Возвращение на исходный маршрут
+            this.router.navigate([currentUrl]);
+          });
+        }
+        this.nom.updateNom(result.id, result.data)
+      }
+    })
+  }
+
+  openEditTableDialog(){
+    const dialogRef = this.dialog.open(EditTablesDialogComponent, {
+      width: '80%',
+      maxWidth: 'none',
+      height: '80%',
+      data: { allNOMID: this.allNOMID, allGroups:this.allGroups,
+        allPodGroups: this.allPodGroups, allBodyMaid: this.allBodyMaid,
+        allName: this.allName, allType: this.allType,
+        allAvailable: this.allAvailable, allNOM: this.allNOM, Filter: this.Filter2(), allScale: this.allScale,
+        allRec: this.allRecGroup}
+    });
+
+    dialogRef.afterClosed().subscribe(result=>{
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        // Возвращение на исходный маршрут
+        this.router.navigate([currentUrl]);
+      });
+      /*if(result.mode == "delete"){
         console.log(result.id)
         this.nom.deleteNom(result.id)
         const currentUrl = this.router.url;
@@ -511,20 +604,8 @@ export class AdminComponent {
           });
         }
         this.nom.updateNom(result.id, result.data)
-      }
+      }*/
     })
-  }
-
-  openEditTableDialog(){
-    const dialogRef = this.dialog.open(EditTablesDialogComponent, {
-      width: '80%',
-      maxWidth: 'none',
-      height: '80%',
-      data: { allNOMID: this.allNOMID, allGroups:this.allGroups,
-        allPodGroups: this.allPodGroups, allBodyMaid: this.allBodyMaid,
-        allName: this.allName, allType: this.allType,
-        allAvailable: this.allAvailable, allNOM: this.allNOM, Filter: this.Filter2(), allScale: this.allScale}
-    });
   }
 
   protected readonly Object = Object;

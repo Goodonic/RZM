@@ -7,6 +7,7 @@
     <th>Категория</th>
     <th>Товар</th>
     <th>Масштаб</th>
+    <th>Группа рек</th>
 
   </tr>
   </thead>
@@ -48,6 +49,14 @@
       <select name="Подгруппа" [(ngModel)]="formData.scale_nom">>
         <option value="" selected disabled hidden>Выбрать</option>
         <option *ngFor="let group of Object.keys(data.allScale)" >
+          {{group}}
+        </option>
+      </select>
+    </td>
+    <td>
+      <select name="Группы рекомендаций" [(ngModel)]="formData.recommendation_nom">>
+        <option value="" selected disabled hidden>Выбрать</option>
+        <option *ngFor="let group of Object.keys(data.allRec)" >
           {{group}}
         </option>
       </select>

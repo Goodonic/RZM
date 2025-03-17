@@ -70,7 +70,7 @@
               <button>Добавить в корзину</button>
             </div>
             <div class="payInOne">
-              <button>Купить в 1 клик</button>
+              <button (click)="Filter()">Купить в 1 клик</button>
             </div>
           </div>
         </div>
@@ -79,8 +79,16 @@
     </main>
   </div>
   <div class="recommendationListContainer">
-    <div class="recommendationList">
-      Тут будет список рекомендаций
+    <div class="recommendationList" *ngIf="filteredNOM.length > 0">
+      <div style="height: 250px; width: 200px" *ngFor="let product of filteredNOM">
+        <app-product-card style="color: black" (click)="sendProductPageData(product.id)" class="card"
+                          [image]="product.frontpic_nom"
+                          [price]="product.cash_nom"
+                          [description]="product.description"
+                          [name]="product.name_nom"
+                          [product]="product.podgrupp_nom"></app-product-card>
+      </div>
+
     </div>
   </div>
 
