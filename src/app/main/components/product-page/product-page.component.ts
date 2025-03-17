@@ -265,7 +265,7 @@ export class ProductPageComponent {
   }
 
   sendProductPageData(productId:string){
-    this.router.navigate(['/product/'+productId]);
+
     this.id = '';
     this.data = {};
 
@@ -283,6 +283,7 @@ export class ProductPageComponent {
     }
     this.allNOM = [];
     this.allNOMID = [];
-    this.ngOnInit()
+    this.router.navigateByUrl('/product/'+productId).then(()=>{this.ngOnInit()});
+
   }
 }
