@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import {AddDescriptionDialogComponent} from '../add-description-dialog/add-description-dialog.component';
 import { CommonModule } from '@angular/common';
+import {ApplyDialogComponent} from '../apply-dialog/apply-dialog.component';
 
 export interface NomData {
   Id:string,
@@ -116,6 +117,20 @@ export class NomEditorComponent {
     this.dialogRef.close();
   }
 
+  openConfirmDialog(){
+    const dialogRef = this.dialog.open(ApplyDialogComponent, {
+      width: '25%',
+      maxWidth: 'none',
+      height: '15%',
+      data: { message: "Вы уверены, что хотите удалить компонент?"}
+    });
+
+    dialogRef.afterClosed().subscribe(result=>{
+      if (result.data){
+        this.delete()
+      }
+    })
+  }
   delete():void{
     this.dialogRef.close({id:this.data.Id, mode:"delete"});
   }
