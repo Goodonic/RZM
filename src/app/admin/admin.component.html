@@ -26,9 +26,9 @@
       <th class="addTable">Категория</th>
       <th class="addTable">Товар</th>
       <th class="addTable">Масштаб</th>
+      <th class="addTable">Группа рек</th>
       <th class="addTable">Изготовитель</th>
       <th class="addTable">Доступность</th>
-      <th class="addTable">Группа рек</th>
       <th class="addTable">Цена</th>
       <th class="addTable">Описание</th>
       <th class="addTable">Изображение</th>
@@ -81,6 +81,14 @@
         </select>
       </td>
       <td class="addTable">
+        <select class="tableCell" name="Группы рекомендаций" [(ngModel)]="newNOM.recommendation_nom">
+          <option value="" selected >Выбрать</option>
+          <option *ngFor="let group of Object.keys(allRecGroup)" >
+            {{group}}
+          </option>
+        </select>
+      </td >
+      <td class="addTable">
         <select class="tableCell" name="Изготовитель" [(ngModel)]="newNOM.bodymaid_nom">
           <option value="" selected disabled hidden>Выбрать</option>
           <option *ngFor="let group of Object.keys(allBodyMaid)" >
@@ -96,14 +104,7 @@
           </option>
         </select>
       </td>
-      <td class="addTable">
-        <select class="tableCell" name="Группы рекомендаций" [(ngModel)]="newNOM.recommendation_nom">
-          <option value="" selected >Выбрать</option>
-          <option *ngFor="let group of Object.keys(allRecGroup)" >
-            {{group}}
-          </option>
-        </select>
-      </td >
+
       <td class="addTable">
         <input class="tableCell" [(ngModel)]="newNOM.cash_nom" type="number">
       </td>
@@ -153,7 +154,7 @@
       <th>Категория</th>
       <th>Товар</th>
       <th>Масштаб</th>
-      <th>Группы рек</th>
+      <th>Группа рек</th>
       <th>Изготовитель</th>
       <th>Доступность</th>
       <th>Цена</th>
