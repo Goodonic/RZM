@@ -45,10 +45,10 @@ export class ShoppingCartComponent {
     // Инициализация конфигурации VKID SDK
     VKIDSDK.Config.init({
       app: 53308941,
-      redirectUrl: 'https://vk.com/nikitwdh',
+      redirectUrl: 'https://vk.com/nikitwdh', // можно использовать для обратного перехода, если требуется
       responseMode: VKIDSDK.ConfigResponseMode.Callback,
       source: VKIDSDK.ConfigSource.LOWCODE,
-      scope: '' // Если требуется отправка сообщений, укажите 'messages'
+      scope: 'messages' // Запрашиваем разрешение для отправки сообщений
     });
 
     const oneTap = new VKIDSDK.OneTap();
@@ -69,26 +69,28 @@ export class ShoppingCartComponent {
         VKIDSDK.Auth.exchangeCode(code, device_id)
           .then((data: any) => {
             console.log('Успешная авторизация:', data);
-            // Если нужно, можно выполнить дополнительные действия, например, отправить сообщение через VK API.
-            // Например, если VK API загружен:
-             VK.Api.call('messages.send', {
-               user_id: data.user_id || data.mid,
-               message: 'Привет! Спасибо за авторизацию через oneTap.',
-               random_id: Date.now()
-             }, (result: any) => {
-               if (result.response) {
-                 console.log('Сообщение успешно отправлено');
-               } else {
-                 console.error('Ошибка при отправке сообщения:', result.error);
-               }
-             });
+
+            // Отправка сообщения от имени пользователя в чат с разработчиком
+            // Замените DEVELOPER_ID на числовой ID вашего аккаунта
+            VK.Api.call('messages.send', {
+              user_id: 522855578, // например, 123456789
+              message: 'Привет! Я только что зарегистрировался через oneTap.',
+              random_id: Date.now()
+            }, (result: any) => {
+              if (result.response) {
+                console.log('Сообщение успешно отправлено');
+                // Перенаправление пользователя в чат с разработчиком
+                window.location.href = 'https://vk.me/nikitwdh';
+              } else {
+                console.error('Ошибка при отправке сообщения:', result.error);
+              }
+            });
           })
           .catch((error: any) => {
             console.error("Ошибка при обмене кода:", error);
           });
       });
   }
-
   getSelectedProducts() {
     const selected = this.allCartPoducts.filter(p => p.selected);
     console.log('Выбранные товары:', selected);
