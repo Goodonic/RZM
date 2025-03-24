@@ -27,7 +27,7 @@
         <a class="nav-link" href="#"><i class="fas fa-user"></i> Вход / Регистрация</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Корзина</a>
+        <a class="nav-link" (click)="router.navigate(['/cart'])"><i class="fas fa-shopping-cart"></i> Корзина</a>
       </li>
     </ul>
   </div>
@@ -86,7 +86,8 @@
                           [price]="product.cash_nom"
                           [description]="product.description"
                           [name]="product.name_nom"
-                          [product]="product.podgrupp_nom"></app-product-card>
+                          [product]="product.podgrupp_nom"
+                          [id] = "product.id"></app-product-card>
       </div>
 
     </div>

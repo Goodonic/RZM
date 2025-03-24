@@ -402,8 +402,8 @@ export class MainComponent {
 
   }
 
-  textBarSearch(){
-
+  addToCart(product:any){
+    localStorage.setItem(product.id, JSON.stringify(product))
   }
 
   protected readonly Object = Object;

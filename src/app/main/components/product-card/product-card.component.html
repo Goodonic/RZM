@@ -5,6 +5,6 @@
     <p class="product-name">{{ name }}</p>
     <p class="product-price">{{ price }}₽</p>
 <!--    <p class="product-description">{{ description }}</p>-->
-    <button class="cart-button">В корзину</button>
+    <button class="cart-button" (click)="addToCart({id: this.id, name: this.name, product:this.product, price: this.price, image:this.image})">В корзину</button>
   </div>
 </div>

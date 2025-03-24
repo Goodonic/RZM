@@ -1,0 +1,10 @@
+.tableContainer{
+  max-height: 65%;
+  overflow-y: scroll;
+}
+
+.productContainer{
+  width: 80%;
+  background-color: #cccccc;
+  height: 200px;
+}

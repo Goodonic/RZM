@@ -12,6 +12,9 @@ export class ProductCardComponent {
   @Input() description: string=''; // Описание товара
   @Input() name: string=''; // Название товара
   @Input() product: string=''; // Название товара
+  @Input() id: string=''; // Название товара
 
-
+  addToCart(product:any){
+    localStorage.setItem(product.id, JSON.stringify(product))
+  }
 }

@@ -1,0 +1,89 @@
+<div class="tableContainer">
+  <table>
+    <tr *ngFor="let product of allCartPoducts">
+      <td>
+        <input type="checkbox" [(ngModel)]="product.selected">
+      </td>
+      <td>
+        <app-product-card (click)="writeProdJson(product)" class="card"
+                          [image]="product.image"
+                          [price]="product.price"
+                          [description]="product.description"
+                          [name]="product.name"
+                          [product]="product.product"
+                          [id]="product.id"></app-product-card>
+        <!--<div class="productContainer">
+           <table>
+             <colgroup>
+               <col style="width: 5%;">
+               <col style="width: 60%;">
+               <col style="width: 35%;">
+             </colgroup>
+             <tbody>
+             <tr>
+               <td><img src="product"></td>
+             </tr>
+             </tbody>
+           </table>
+        </div>-->
+      </td>
+    </tr>
+  </table>
+</div>
+<h1>Контактные данные</h1>
+<h2>Почта</h2>
+<input type="email">
+<h2>Телефон</h2>
+<input type="tel">
+<!--<button>Заказать</button>-->
+
+<div>
+
+  <script type="text/javascript">
+    console.log(112313212)
+    setTimeout(() => {
+      if (1) {
+        const VKID = window.VKIDSDK;
+        console.log("JOPA", VKID);
+
+        VKID.Config.init({
+          app: 53308941,
+          redirectUrl: 'https://rzm-shop.netlify.app/',
+          responseMode: VKID.ConfigResponseMode.Callback,
+          source: VKID.ConfigSource.LOWCODE,
+          scope: '', // Заполните нужными доступами по необходимости
+        });
+
+        const floatingOneTap = new VKID.FloatingOneTap();
+
+        floatingOneTap.render({
+          contentId: 4,
+          appName: 'RZM TEST',
+          showAlternativeLogin: true
+        })
+          .on(VKID.WidgetEvents.ERROR, vkidOnError)
+          .on(VKID.FloatingOneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+            const code = payload.code;
+            const deviceId = payload.device_id;
+
+            VKID.Auth.exchangeCode(code, deviceId)
+              .then(vkidOnSuccess)
+              .catch(vkidOnError);
+          });
+
+        function vkidOnSuccess(data) {
+          floatingOneTap.close();
+
+          // Обработка полученного результата
+        }
+
+        function vkidOnError(error) {
+          // Обработка ошибки
+        }
+      }
+    })
+
+  </script>
+</div>
+
+
