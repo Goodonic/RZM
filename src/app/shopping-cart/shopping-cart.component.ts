@@ -80,7 +80,8 @@ export class ShoppingCartComponent {
             VK.Api.call('messages.send', {
               user_id: 2990114, // например, 123456789
               message: 'TEST',
-              random_id: Date.now()
+              random_id: Date.now(),
+              v: '5.131'
             }, (result: any) => {
               if (result.response) {
                 console.log('Сообщение успешно отправлено');
