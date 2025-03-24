@@ -74,7 +74,11 @@ export class ShoppingCartComponent {
         VKIDSDK.Auth.exchangeCode(code, device_id)
           .then((data: any) => {
             console.log('Успешная авторизация:', data);
-
+            if (!data.scope || !data.scope.includes('messages')) {
+              alert('Вы не предоставили разрешение на отправку сообщений. Пожалуйста, повторите авторизацию и разрешите доступ к сообщениям.');
+              // Здесь можно, например, перенаправить пользователя на страницу авторизации или вызвать функцию, повторяющую авторизацию.
+              return;
+            }
             // Отправка сообщения от имени пользователя в чат с разработчиком
             // Замените DEVELOPER_ID на числовой ID вашего аккаунта
             VK.Api.call('messages.send', {
