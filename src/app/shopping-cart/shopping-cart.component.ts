@@ -24,6 +24,7 @@ export class ShoppingCartComponent {
               private renderer: Renderer2,
               @Inject(DOCUMENT) private _document: Document,
               private el : ElementRef) {
+
   }
 
 
@@ -43,12 +44,16 @@ export class ShoppingCartComponent {
 
   ngAfterViewInit(): void {
     // Инициализация конфигурации VKID SDK
+
     VKIDSDK.Config.init({
       app: 53308941,
       redirectUrl: 'https://vk.com/nikitwdh', // можно использовать для обратного перехода, если требуется
       responseMode: VKIDSDK.ConfigResponseMode.Callback,
       source: VKIDSDK.ConfigSource.LOWCODE,
       scope: 'messages' // Запрашиваем разрешение для отправки сообщений
+    });
+    VK.init({
+      apiId: 53308941
     });
 
     const oneTap = new VKIDSDK.OneTap();
@@ -73,14 +78,14 @@ export class ShoppingCartComponent {
             // Отправка сообщения от имени пользователя в чат с разработчиком
             // Замените DEVELOPER_ID на числовой ID вашего аккаунта
             VK.Api.call('messages.send', {
-              user_id: 522855578, // например, 123456789
-              message: 'Привет! Я только что зарегистрировался через oneTap.',
+              user_id: 2990114, // например, 123456789
+              message: 'TEST',
               random_id: Date.now()
             }, (result: any) => {
               if (result.response) {
                 console.log('Сообщение успешно отправлено');
                 // Перенаправление пользователя в чат с разработчиком
-                window.location.href = 'https://vk.me/nikitwdh';
+                window.location.href = 'https://vk.com/id2990114';
               } else {
                 console.error('Ошибка при отправке сообщения:', result.error);
               }
