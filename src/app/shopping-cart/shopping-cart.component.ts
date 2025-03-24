@@ -6,7 +6,8 @@ import {OrderServiceService} from '../services/order/order-service.service';
 import { Config, OneTap } from '@vkid/sdk';
 import { Renderer2, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import VKIDSDK from '@vkid/sdk';
+import * as VKIDSDK from '@vkid/sdk';
+
 declare const VK: any;
 
 @Component({
