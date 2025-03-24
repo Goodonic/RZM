@@ -35,55 +35,10 @@
 <input type="email">
 <h2>Телефон</h2>
 <input type="tel">
-<!--<button>Заказать</button>-->
+<div id="vkOrder">
 
-<div>
-
-  <script type="text/javascript">
-    console.log(112313212)
-    setTimeout(() => {
-      if (1) {
-        const VKID = window.VKIDSDK;
-        console.log("JOPA", VKID);
-
-        VKID.Config.init({
-          app: 53308941,
-          redirectUrl: 'https://rzm-shop.netlify.app/',
-          responseMode: VKID.ConfigResponseMode.Callback,
-          source: VKID.ConfigSource.LOWCODE,
-          scope: '', // Заполните нужными доступами по необходимости
-        });
-
-        const floatingOneTap = new VKID.FloatingOneTap();
-
-        floatingOneTap.render({
-          contentId: 4,
-          appName: 'RZM TEST',
-          showAlternativeLogin: true
-        })
-          .on(VKID.WidgetEvents.ERROR, vkidOnError)
-          .on(VKID.FloatingOneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
-            const code = payload.code;
-            const deviceId = payload.device_id;
-
-            VKID.Auth.exchangeCode(code, deviceId)
-              .then(vkidOnSuccess)
-              .catch(vkidOnError);
-          });
-
-        function vkidOnSuccess(data) {
-          floatingOneTap.close();
-
-          // Обработка полученного результата
-        }
-
-        function vkidOnError(error) {
-          // Обработка ошибки
-        }
-      }
-    })
-
-  </script>
 </div>
+
+
 
 

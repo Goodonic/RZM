@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ProductCardComponent} from '../main/components/product-card/product-card.component';
 import {FormsModule} from '@angular/forms';
@@ -6,6 +6,7 @@ import {OrderServiceService} from '../services/order/order-service.service';
 import { Config, OneTap } from '@vkid/sdk';
 import { Renderer2, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import VKIDSDK from '@vkid/sdk';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,7 +20,8 @@ export class ShoppingCartComponent {
 
   constructor(private order: OrderServiceService,
               private _renderer2: Renderer2,
-              @Inject(DOCUMENT) private _document: Document) {
+              @Inject(DOCUMENT) private _document: Document,
+              private _elementRef : ElementRef) {
   }
 
 
@@ -43,10 +45,10 @@ export class ShoppingCartComponent {
 
       VKID.Config.init({
         app: 53308941,
-        redirectUrl: 'https://rzm-shop.netlify.app/',
+        redirectUrl: 'https://vk.com/nikitwdh',
         responseMode: VKID.ConfigResponseMode.Callback,
         source: VKID.ConfigSource.LOWCODE,
-        scope: '', // Заполните нужными доступами по необходимости
+        scope: 'message', // Заполните нужными доступами по необходимости
       });
 
       const oneTap = new VKID.OneTap();
@@ -68,18 +70,35 @@ export class ShoppingCartComponent {
       });
 
       function vkidOnSuccess(data) {
-        // Обработка полученного результата
-        alert("success")
+    // Обработка успешной авторизации
+    alert("Успешная авторизация");
+    console.log(data);
+
+    // Пример отправки сообщения от имени пользователя через VK API.
+    // Убедитесь, что данные содержат user_id (или mid) и access_token, а пользователь выдал разрешение на доступ к сообщениям.
+    VK.Api.call('messages.send', {
+      user_id: data.user_id || data.mid, // Зависит от структуры возвращаемых данных
+      message: 'TEST',
+      random_id: Date.now()
+    }, function(result) {
+      if (result.response) {
+        console.log('Сообщение успешно отправлено');
+      } else {
+        console.error('Ошибка при отправке сообщения:', result.error);
       }
+    });
+
+  }
 
       function vkidOnError(error) {
         // Обработка ошибки
-        alert('error')
+        alert(error)
+        console.log(error)
       }
     }
         `;
 
-    this._renderer2.appendChild(this._document.body, script);
+    this._renderer2.appendChild(this._elementRef.nativeElement.querySelector(`#vkOrder`), script);
 
   }
 
