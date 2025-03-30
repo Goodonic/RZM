@@ -29,7 +29,7 @@ export class OrderServiceService {
       eMail: orderData.eMail,
       VK:orderData.vk,
       tel:orderData.tel,
-      name:orderData.name,
+      Name:orderData.Name,
       email: orderData.testEMail,
       cost:{total: this.total}
       // Можно добавить и другие параметры по необходимости
