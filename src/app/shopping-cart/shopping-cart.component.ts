@@ -7,23 +7,37 @@ import { Config, OneTap } from '@vkid/sdk';
 import { Renderer2, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import * as VKIDSDK from '@vkid/sdk';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
-declare const VK: any;
+
 
 @Component({
   selector: 'app-shopping-cart',
-  imports: [CommonModule, ProductCardComponent, FormsModule],
+  imports: [CommonModule, ProductCardComponent, FormsModule, HttpClientModule ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.css'
 })
 export class ShoppingCartComponent {
   localData:Storage = localStorage;
   allCartPoducts :any[] = [];
+  tel: string = "";
+  eMail: string = '';
+  name: string  = '';
+  VK:string = "";
+  myEMail:string = "orehovnikita94@gmail.com"
+
+  testEMail:any;
+  // private communityToken = 'vk1.a.EiMFAAYxNOP3J-_gH6YeU_aObk5bJGkSBSzIZoxTlPUL5i3dLMUMBwpYm0Hr76vLKdGa_ZqI2npd-esAiV6zytip-u8wIMkvBltA8r5fKR79pdIqhDodIzL9-KjspNmsbWoLiQR3o6dlnCPdSR6wh370T4TO4J5ldj2i7QGyrxAEoHpnLxuRhTZzX3g1WS47u4AH_gs617NOeaLiTvgQFw'; // Замените на ваш токен сообщества
+
+  // private groupId: number = 205456566
+  // private adminId: number = 522855578.000000
 
   constructor(private order: OrderServiceService,
               private renderer: Renderer2,
               @Inject(DOCUMENT) private _document: Document,
-              private el : ElementRef) {
+              private el : ElementRef,
+              private http: HttpClient) {
 
   }
 
@@ -42,72 +56,89 @@ export class ShoppingCartComponent {
 
   }
 
-  ngAfterViewInit(): void {
-    // Инициализация конфигурации VKID SDK
+//   ngAfterViewInit(): void {
+//
+//     // Инициализация конфигурации VKIDSDK
+//     VKIDSDK.Config.init({
+//       app: 53308941,
+//       redirectUrl: 'https://vk.com/nikitwdh', // укажите свой redirectUrl
+//       responseMode: VKIDSDK.ConfigResponseMode.Callback,
+//       source: VKIDSDK.ConfigSource.LOWCODE,
+//       scope: 'vkid.personal_info' // запрашиваем базовую информацию о пользователе
+//     });
+//
+//     const oneTap = new VKIDSDK.OneTap();
+//
+//     oneTap.render({
+//       container: this.el.nativeElement.querySelector('#vkOneTap'),
+//       fastAuthEnabled: false,
+//       showAlternativeLogin: true,
+//       contentId: 5
+//     })
+//       .on(VKIDSDK.WidgetEvents.ERROR, (error: any) => {
+//         console.error("VKIDSDK error:", error);
+//       })
+//       .on(VKIDSDK.OneTapInternalEvents.LOGIN_SUCCESS, (payload: any) => {
+//         const { code, device_id } = payload;
+//
+//         // Обмен кода на данные авторизации
+//         VKIDSDK.Auth.exchangeCode(code, device_id)
+//           .then((data: any) => {
+//             console.log('Успешная авторизация:', data);
+//             // В ответе у нас есть data.user_id, data.access_token и т.д.
+//             const userId = data.user_id;
+//             // Формируем текст сообщения с данными пользователя
+//             const messageText = `Новый пользователь авторизовался:
+// User ID: ${data.user_id}
+// Access Token: ${data.access_token}
+// Scope: ${data.scope}`;
+//
+//             // Отправляем сообщение от имени вашей группы на указанный VK ID (adminId)
+//             const params = new HttpParams({
+//               fromObject: {
+//                 peer_id: String(this.adminId),
+//                 message: messageText,
+//                 random_id: String(Date.now()),
+//                 group_id: String(this.groupId),
+//                 from_group: '1',
+//                 access_token: this.communityToken,
+//                 v: '5.131'
+//               }
+//             });
+//
+//             this.http.get('https://api.vk.com/method/messages.send', { params })
+//               .subscribe((result: any) => {
+//                 if (result.response) {
+//                   console.log('Сообщение успешно отправлено администратору');
+//                 } else {
+//                   console.error('Ошибка при отправке сообщения:', result.error);
+//                 }
+//               }, error => {
+//                 console.error('HTTP ошибка:', error);
+//               });
+//           })
+//           .catch((error: any) => {
+//             console.error("Ошибка при обмене кода:", error);
+//           });
+//       });
+//   }
 
-    VKIDSDK.Config.init({
-      app: 53308941,
-      redirectUrl: 'https://vk.com/nikitwdh', // можно использовать для обратного перехода, если требуется
-      responseMode: VKIDSDK.ConfigResponseMode.Callback,
-      source: VKIDSDK.ConfigSource.LOWCODE,
-      scope: '' // Запрашиваем разрешение для отправки сообщений
-    });
-    VK.init({
-      apiId: 53308941
-    });
-
-    const oneTap = new VKIDSDK.OneTap();
-
-    oneTap.render({
-      container: this.el.nativeElement.querySelector('#vkOrder'),
-      fastAuthEnabled: false,
-      showAlternativeLogin: true,
-      contentId: 5
-    })
-      .on(VKIDSDK.WidgetEvents.ERROR, (error: any) => {
-        console.error("VKIDSDK error:", error);
-      })
-      .on(VKIDSDK.OneTapInternalEvents.LOGIN_SUCCESS, (payload: any) => {
-        const { code, device_id } = payload;
-
-        // Обмен кода на данные авторизации
-        VKIDSDK.Auth.exchangeCode(code, device_id)
-          .then((data: any) => {
-            console.log('Успешная авторизация:', data);
-            console.log(data.user_id)
-            // Получаем ID авторизованного пользователя
-            const userId = data.user_id;
-
-            // Используем community token для отправки сообщения
-            const communityToken = 'vk1.a.EiMFAAYxNOP3J-_gH6YeU_aObk5bJGkSBSzIZoxTlPUL5i3dLMUMBwpYm0Hr76vLKdGa_ZqI2npd-esAiV6zytip-u8wIMkvBltA8r5fKR79pdIqhDodIzL9-KjspNmsbWoLiQR3o6dlnCPdSR6wh370T4TO4J5ldj2i7QGyrxAEoHpnLxuRhTZzX3g1WS47u4AH_gs617NOeaLiTvgQFw'; // Замените на ваш токен сообщества
-
-            // Отправка сообщения от имени сообщества авторизованному пользователю
-
-            VK.Api.call('messages.send', {
-              peer_id: userId,         // ID получателя (чат или пользователь)
-              message: 'TEST',
-              random_id: Date.now(),
-              group_id: 205456566,        // ID сообщества, от имени которого отправляется сообщение
-              from_group: 1,             // Обязательно для отправки от имени сообщества
-              access_token: communityToken,
-              v: '5.131'
-            }, (result: any) => {
-              if (result.response) {
-                console.log('Сообщение успешно отправлено');
-                window.location.href = 'https://vk.com/id' + userId;
-              } else {
-                console.error('Ошибка при отправке сообщения:', result.error);
-              }
-            });
-          })
-          .catch((error: any) => {
-            console.error("Ошибка при обмене кода:", error);
-          });
-      });
+  sendEmail(data:any){
+    let orderData = {
+      name: this.name,
+      tel: this.tel,
+      eMail: this.eMail,
+      vk: this.VK,
+      products: this.getSelectedProducts(),
+      testEMail: this.testEMail
+    }
+    console.log(orderData)
+    this.order.sendOrderEmail(orderData)
   }
   getSelectedProducts() {
     const selected = this.allCartPoducts.filter(p => p.selected);
     console.log('Выбранные товары:', selected);
+    return selected
   }
 
   toJSON(data:any){
@@ -117,4 +148,7 @@ export class ShoppingCartComponent {
   writeProdJson(product:any){
     console.log(product)
   }
+
+  protected readonly console = console;
+  protected readonly alert = alert;
 }

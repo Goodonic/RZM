@@ -1,34 +1,76 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
+
+declare var Email: any; // Глобальная переменная, предоставляемая SMTP.js
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderServiceService {
-  // private accessToken: string = 'vk1.a.EiMFAAYxNOP3J-_gH6YeU_aObk5bJGkSBSzIZoxTlPUL5i3dLMUMBwpYm0Hr76vLKdGa_ZqI2npd-esAiV6zytip-u8wIMkvBltA8r5fKR79pdIqhDodIzL9-KjspNmsbWoLiQR3o6dlnCPdSR6wh370T4TO4J5ldj2i7QGyrxAEoHpnLxuRhTZzX3g1WS47u4AH_gs617NOeaLiTvgQFw'; // Токен сообщества
-  // private apiVersion: string = '5.131';
-  // private baseUrl: string = 'https://api.vk.com/method';
-  //
-  // constructor(private http: HttpClient) {}
-  //
-  // /**
-  //  * Отправка сообщения через VK API.
-  //  * @param peerId Идентификатор получателя (user_id или dialog_id)
-  //  * @param message Текст сообщения
-  //  */
-  // sendMessage(peerId: number, message: string): Observable<any> {
-  //   const randomId: number = Date.now(); // Используем для уникальности запроса
-  //   const params = new HttpParams()
-  //     .set('peer_id', peerId.toString())
-  //     .set('random_id', randomId.toString())
-  //     .set('message', message)
-  //     .set('access_token', this.accessToken)
-  //     .set('v', this.apiVersion);
-  //
-  //   const url = `${this.baseUrl}/messages.send`;
-  //   return this.http.get(url, { params });
-  // }
+  total = 0;
+  sendOrderEmail(orderData: any): void {
 
+    for (let i = 0; i < (orderData.products).length; i++){
+      delete orderData.products[i]['image']
+      JSON.stringify(orderData.products)
+      this.total += orderData.products[i].price
+    }
+    console.log(orderData.products)
+    // Программная генерация HTML-шаблона письма
+    const emailContent = this.createEmailContent(orderData);
+    console.log(emailContent)
+    console.log(orderData.products)
+    const templateParams = {
+      from_name: orderData.name,  // Можно использовать для указания отправителя в шаблоне
+      order_id: Math.floor(Math.random()*10000),
+      orders: orderData.products,
+      eMail: orderData.eMail,
+      VK:orderData.vk,
+      tel:orderData.tel,
+      name:orderData.name,
+      email: orderData.testEMail,
+      cost:{total: this.total}
+      // Можно добавить и другие параметры по необходимости
+    };
+
+    emailjs.send('service_g1b53jn', 'template_9xzen66', templateParams, '2LkaiWOp4OD7j-n5A')
+      .then((result: EmailJSResponseStatus) => {
+        console.log('Email sent successfully:', result.text);
+      }, (error) => {
+        console.error('Error sending email:', error);
+      });
+    this.total = 0
+  }
+
+  private createEmailContent(orderData: any): string {
+    console.log("orderData")
+    console.log(orderData)
+    // Пример динамически сформированного HTML-содержимого
+    let content = `<h1>Новый заказ</h1>`;
+    content += `<p><strong>Имя:</strong> ${orderData.name}</p>`;
+    content += `<p><strong>Контактный телефон:</strong> ${orderData.tel}</p>`;
+    content += `<p><strong>ВК:</strong> ${orderData.vk}</p>`;
+    content += `<p><strong>eMail:</strong> ${orderData.eMail}</p>`;
+    content += `<p><strong>qwer:</strong> ${orderData.products}</p>`;
+    // for (let i = 0; i < (orderData.products).length; i++){
+    //   content += `<p><strong>eMail:</strong> ${orderData.products[i]}</p>`;
+    // }
+    // content += `<p><strong>Товар:</strong> ${orderData.product}</p>`;
+    // content += `<p><strong>Количество:</strong> ${orderData.quantity}</p>`;
+    // Добавьте другие поля по необходимости
+    return content;
+  }
+
+  private generateEmailBody(orderData: any): string {
+    let body = '<h1>Новый заказ</h1>';
+    for (const key in orderData) {
+      if (orderData.hasOwnProperty(key)) {
+        body += `<p><strong>${key}:</strong> ${orderData[key]}</p>`;
+      }
+    }
+    return body;
+  }
 
 }

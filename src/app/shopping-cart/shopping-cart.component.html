@@ -31,11 +31,19 @@
   </table>
 </div>
 <h1>Контактные данные</h1>
+<h2>ФИО</h2>
+<input [(ngModel)]="name">
 <h2>Почта</h2>
-<input type="email">
+<input [(ngModel)]="eMail"  type="email">
 <h2>Телефон</h2>
-<input type="tel">
+<input [(ngModel)]='tel' type="tel">
+<h2>ВК</h2>
+<input [(ngModel)]='VK'>
+<button (click)=" getSelectedProducts().length > 0 ? sendEmail(''): null; getSelectedProducts()">Заказать</button>
 <div id="vkOrder">
+
+<h2>Почта для тестов, на нее придет сообщение</h2>
+<input [(ngModel)]='testEMail'>
 
 </div>
 
