@@ -40,6 +40,20 @@ export class ShoppingCartComponent {
       }
     }
 
+    this.loginOneTap()
+  }
+
+  loginOneTap(): void {
+    // Вызываем VK.Auth.login с опцией oneTap: true
+    // Обратите внимание: параметр oneTap зависит от реализации VK и может меняться
+    VK.Auth.login((response: any) => {
+      if (response.session) {
+        console.log('Авторизация успешна:', response);
+        // Здесь можно обработать данные пользователя
+      } else {
+        console.error('Ошибка авторизации или пользователь отменил вход');
+      }
+    }, { oneTap: true });
   }
 
   ngAfterViewInit(): void {
@@ -82,15 +96,17 @@ export class ShoppingCartComponent {
             // Отправка сообщения от имени пользователя в чат с разработчиком
             // Замените DEVELOPER_ID на числовой ID вашего аккаунта
             VK.Api.call('messages.send', {
-              user_id: 2990114, // например, 123456789
+              peer_id: 522855578.000000,         // ID получателя (чат или пользователь)
               message: 'TEST',
               random_id: Date.now(),
+              group_id: 205456566,        // ID сообщества, от имени которого отправляется сообщение
+              from_group: 1,             // Обязательно для отправки от имени сообщества
               v: '5.131'
             }, (result: any) => {
               if (result.response) {
                 console.log('Сообщение успешно отправлено');
                 // Перенаправление пользователя в чат с разработчиком
-                window.location.href = 'https://vk.com/id2990114';
+                window.location.href = 'https://vk.com/club205456566';
               } else {
                 console.error('Ошибка при отправке сообщения:', result.error);
               }

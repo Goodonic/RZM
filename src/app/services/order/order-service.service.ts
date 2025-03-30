@@ -1,37 +1,34 @@
 import { Injectable } from '@angular/core';
-import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderServiceService {
-
-  constructor() { }
-
-  emailLogin = {
-    hostMail: "orexovheketa@gmail.com",
-    password: "khly rllb vmbm ryzz"
-  }
-
-
-  vkUserInit(){
-
-  }
-  sendVKMessage = (message: string) => {
-    const vkToken = '3121f0593121f0593121f059db320c9e54331213121f05956c1a2fdba7a0ebdbe801453'; // Не рекомендуется хранить токен в клиентском коде!
-    const userId = '522855578';
-    const apiVersion = '5.131';
-
-    const url = `https://api.vk.com/method/messages.send?user_id=${userId}` +
-      `&message=${encodeURIComponent(message)}` +
-      `&access_token=${vkToken}&v=${apiVersion}`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => console.log('VK ответ:', data))
-      .catch(error => console.error('Ошибка VK API:', error));
-  };
-
+  // private accessToken: string = 'vk1.a.EiMFAAYxNOP3J-_gH6YeU_aObk5bJGkSBSzIZoxTlPUL5i3dLMUMBwpYm0Hr76vLKdGa_ZqI2npd-esAiV6zytip-u8wIMkvBltA8r5fKR79pdIqhDodIzL9-KjspNmsbWoLiQR3o6dlnCPdSR6wh370T4TO4J5ldj2i7QGyrxAEoHpnLxuRhTZzX3g1WS47u4AH_gs617NOeaLiTvgQFw'; // Токен сообщества
+  // private apiVersion: string = '5.131';
+  // private baseUrl: string = 'https://api.vk.com/method';
+  //
+  // constructor(private http: HttpClient) {}
+  //
+  // /**
+  //  * Отправка сообщения через VK API.
+  //  * @param peerId Идентификатор получателя (user_id или dialog_id)
+  //  * @param message Текст сообщения
+  //  */
+  // sendMessage(peerId: number, message: string): Observable<any> {
+  //   const randomId: number = Date.now(); // Используем для уникальности запроса
+  //   const params = new HttpParams()
+  //     .set('peer_id', peerId.toString())
+  //     .set('random_id', randomId.toString())
+  //     .set('message', message)
+  //     .set('access_token', this.accessToken)
+  //     .set('v', this.apiVersion);
+  //
+  //   const url = `${this.baseUrl}/messages.send`;
+  //   return this.http.get(url, { params });
+  // }
 
 
 }
