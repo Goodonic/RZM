@@ -74,8 +74,9 @@ export class ShoppingCartComponent {
         VKIDSDK.Auth.exchangeCode(code, device_id)
           .then((data: any) => {
             console.log('Успешная авторизация:', data);
+            console.log(data.user_id)
             // Получаем ID авторизованного пользователя
-            const userId = data.session.user.id;
+            const userId = data.user_id;
 
             // Используем community token для отправки сообщения
             const communityToken = 'vk1.a.EiMFAAYxNOP3J-_gH6YeU_aObk5bJGkSBSzIZoxTlPUL5i3dLMUMBwpYm0Hr76vLKdGa_ZqI2npd-esAiV6zytip-u8wIMkvBltA8r5fKR79pdIqhDodIzL9-KjspNmsbWoLiQR3o6dlnCPdSR6wh370T4TO4J5ldj2i7QGyrxAEoHpnLxuRhTZzX3g1WS47u4AH_gs617NOeaLiTvgQFw'; // Замените на ваш токен сообщества
