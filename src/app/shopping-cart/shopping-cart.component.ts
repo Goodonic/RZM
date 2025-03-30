@@ -84,7 +84,7 @@ export class ShoppingCartComponent {
             // Отправка сообщения от имени сообщества авторизованному пользователю
 
             VK.Api.call('messages.send', {
-              peer_id: data.session.user.id,         // ID получателя (чат или пользователь)
+              peer_id: userId,         // ID получателя (чат или пользователь)
               message: 'TEST',
               random_id: Date.now(),
               group_id: 205456566,        // ID сообщества, от имени которого отправляется сообщение
