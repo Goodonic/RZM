@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
+import {J} from '@angular/cdk/keycodes';
 
 declare var Email: any; // Глобальная переменная, предоставляемая SMTP.js
 
@@ -10,8 +11,8 @@ declare var Email: any; // Глобальная переменная, предо
 })
 export class OrderServiceService {
   total = 0;
-  sendOrderEmail(orderData: any): void {
-
+  sendOrderEmail(data: any): void {
+    const orderData = JSON.parse(JSON.stringify(data))
     for (let i = 0; i < (orderData.products).length; i++){
       delete orderData.products[i]['image']
       JSON.stringify(orderData.products)
