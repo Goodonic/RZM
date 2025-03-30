@@ -50,7 +50,7 @@ export class ShoppingCartComponent {
       redirectUrl: 'https://vk.com/nikitwdh', // можно использовать для обратного перехода, если требуется
       responseMode: VKIDSDK.ConfigResponseMode.Callback,
       source: VKIDSDK.ConfigSource.LOWCODE,
-      scope: 'messages' // Запрашиваем разрешение для отправки сообщений
+      scope: '' // Запрашиваем разрешение для отправки сообщений
     });
     VK.init({
       apiId: 53308941
@@ -74,24 +74,26 @@ export class ShoppingCartComponent {
         VKIDSDK.Auth.exchangeCode(code, device_id)
           .then((data: any) => {
             console.log('Успешная авторизация:', data);
-            if (!data.scope || !data.scope.includes('messages')) {
-              alert('Вы не предоставили разрешение на отправку сообщений. Пожалуйста, повторите авторизацию и разрешите доступ к сообщениям.');
-              // Здесь можно, например, перенаправить пользователя на страницу авторизации или вызвать функцию, повторяющую авторизацию.
-              return;
-            }
-            // Отправка сообщения от имени пользователя в чат с разработчиком
-            // Замените DEVELOPER_ID на числовой ID вашего аккаунта
+            // Получаем ID авторизованного пользователя
+            const userId = data.session.user.id;
+
+            // Используем community token для отправки сообщения
+            const communityToken = 'vk1.a.EiMFAAYxNOP3J-_gH6YeU_aObk5bJGkSBSzIZoxTlPUL5i3dLMUMBwpYm0Hr76vLKdGa_ZqI2npd-esAiV6zytip-u8wIMkvBltA8r5fKR79pdIqhDodIzL9-KjspNmsbWoLiQR3o6dlnCPdSR6wh370T4TO4J5ldj2i7QGyrxAEoHpnLxuRhTZzX3g1WS47u4AH_gs617NOeaLiTvgQFw'; // Замените на ваш токен сообщества
+
+            // Отправка сообщения от имени сообщества авторизованному пользователю
+
             VK.Api.call('messages.send', {
               peer_id: data.session.user.id,         // ID получателя (чат или пользователь)
               message: 'TEST',
               random_id: Date.now(),
               group_id: 205456566,        // ID сообщества, от имени которого отправляется сообщение
               from_group: 1,             // Обязательно для отправки от имени сообщества
+              access_token: communityToken,
               v: '5.131'
             }, (result: any) => {
               if (result.response) {
                 console.log('Сообщение успешно отправлено');
-                window.location.href = 'https://vk.com/id' + data.session.user.id;
+                window.location.href = 'https://vk.com/id' + userId;
               } else {
                 console.error('Ошибка при отправке сообщения:', result.error);
               }
