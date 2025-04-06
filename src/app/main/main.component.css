@@ -101,7 +101,6 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 
 /* Основная область товаров */
 .product-table {
-  flex-grow: 1;
 
   /*background-color: #ffffff;*/
   padding: 20px;
@@ -113,7 +112,7 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  row-gap: 0px;
+  row-gap: 10px;
   width: 100%;
 
 }

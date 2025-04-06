@@ -53,7 +53,7 @@
   <!--Панель тваров-->
 
   <main class="product-table">
-    <div style="height: 320px" *ngFor="let product of filteredNOM">
+    <div style=" max-width: 20%;" *ngFor="let product of filteredNOM">
       <app-product-card (click)="sendProductPageData(product.id)" class=""
         [image]="product.frontpic_nom"
         [price]="product.cash_nom"
