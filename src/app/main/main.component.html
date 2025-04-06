@@ -1,26 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light, header">
-  <a class="navbar-brand" (click)="router.navigate(['/admin'])">RZM</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-user"></i> Вход / Регистрация</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="router.navigate(['/cart'])" ><i class="fas fa-shopping-cart"></i> Корзина</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<app-header></app-header>
 <div class="container">
   <!-- Боковая панель -->
   <aside class="sidebar">
@@ -75,8 +53,8 @@
   <!--Панель тваров-->
 
   <main class="product-table">
-    <div style="height: 200px" *ngFor="let product of filteredNOM">
-      <app-product-card (click)="sendProductPageData(product.id)" class="card"
+    <div style="height: 320px" *ngFor="let product of filteredNOM">
+      <app-product-card (click)="sendProductPageData(product.id)" class=""
         [image]="product.frontpic_nom"
         [price]="product.cash_nom"
         [description]="product.description"
@@ -86,4 +64,3 @@
     </div>
   </main>
 </div>
-

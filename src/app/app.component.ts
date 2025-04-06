@@ -9,4 +9,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'RZMV2';
+  cookieValue = '';
+  constructor() {
+  }
+
+  ngOnInit(): void {}
+
+
 }

@@ -1,10 +1,35 @@
+<!--<div class="product-card">-->
+<!--  <img [src]="image" alt="Product Image" class="product-image" />-->
+<!--  <div class="product-info">-->
+<!--    <p style="font-size: 14px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="product-name">{{ product }}</p>-->
+<!--    <p class="product-name">{{ name }}</p>-->
+<!--    <p class="product-price">{{ price }}₽</p>-->
+<!--&lt;!&ndash;    <p class="product-description">{{ description }}</p>&ndash;&gt;-->
+<!--    <button class="cart-button" (click)="addToCart({id: this.id, name: this.name, product:this.product, price: this.price, image:this.image})">В корзину</button>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="product-card">
-  <img [src]="image" alt="Product Image" class="product-image" />
-  <div class="product-info">
-    <p style="font-size: 14px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="product-name">{{ product }}</p>
-    <p class="product-name">{{ name }}</p>
-    <p class="product-price">{{ price }}₽</p>
-<!--    <p class="product-description">{{ description }}</p>-->
-    <button class="cart-button" (click)="addToCart({id: this.id, name: this.name, product:this.product, price: this.price, image:this.image})">В корзину</button>
+  <div class="product-image">
+    <img [src]="image" alt="Product Image" />
+    <div class="product_type">
+      {{ product }}
+    </div>
+  </div>
+  <div class="product-title">
+
+    <p>{{ name }}</p>
+  </div>
+  <div class="price-block">
+    <table width="100%">
+      <tr>
+        <td width="30%" style="text-align: center">
+          <p class="price">{{ price }} ₽</p>
+        </td>
+        <td width="70%">
+          <button type="button" class="btn btn-primary add-to-cart ">В корзину</button>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>

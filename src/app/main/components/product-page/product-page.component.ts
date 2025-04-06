@@ -14,11 +14,12 @@ import {ScaleService} from '../../../services/firebase/scale.service';
 import {RecommendationsService} from '../../../services/recommendations.service';
 import {ProductCardComponent} from '../product-card/product-card.component';
 import {CommonModule} from '@angular/common';
-import {F} from '@angular/cdk/keycodes';
+import {HeaderComponent} from '../../../header/header.component';
+
 
 @Component({
   selector: 'app-product-page',
-  imports: [ProductCardComponent, CommonModule],
+  imports: [ProductCardComponent, CommonModule, HeaderComponent],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.css'
 })

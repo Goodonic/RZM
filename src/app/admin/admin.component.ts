@@ -23,6 +23,8 @@ import {EditTablesDialogComponent} from './dialog/edit-tables-dialog/edit-tables
 import {RecommendationsService} from '../services/recommendations.service';
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
+/**
+ * Represents the Admin Component of the*/
 @Component({
   selector: 'app-admin',
   imports: [CommonModule, FormsModule  ],
@@ -135,6 +137,11 @@ export class AdminComponent {
       this.getAllRec()
     // console.log(this.filterObj)
   }
+  /**
+   * Retrieves all NOM IDs from the database.
+   *
+   * @return {Promise<Array<string>>} A promise that resolves with an array of strings representing NOM IDs.
+   */
   getAllNOMId(){
   return this.nom.getAllNOMID().then((snapshot)=>{
 
@@ -146,6 +153,11 @@ export class AdminComponent {
     })
    }
 
+  /**
+   * Retrieves all groups and their IDs.
+   *
+   * @return {Promise} A promise that resolves with an object containing group names as keys and group IDs as values.
+   */
   getAllGroups(){
     return this.grupp.getAllGRUPPID().then((snapshot)=>{
 

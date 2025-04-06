@@ -9,95 +9,141 @@
 
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light, header">
-  <a class="navbar-brand" (click)="router.navigate(['/admin'])">RZM</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light, header">-->
+<!--  <a class="navbar-brand" (click)="router.navigate(['/admin'])">RZM</a>-->
+<!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--    <span class="navbar-toggler-icon"></span>-->
+<!--  </button>-->
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
+<!--  <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--    <ul class="navbar-nav mr-auto">-->
+<!--      <li class="nav-item active">-->
+<!--        <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>-->
+<!--      </li>-->
+<!--    </ul>-->
 
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-user"></i> Вход / Регистрация</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="router.navigate(['/cart'])"><i class="fas fa-shopping-cart"></i> Корзина</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<body>
-  <div class="container">
-    <main>
-      <section class="product">
-        <!-- Левая колонка: Изображение товара -->
-        <div class="product-column product-left">
-          <img src="{{data.frontpic_nom}}">
-        </div>
-        <!-- Центральная колонка: Таблица размеров и "О товаре" -->
-        <div class="product-column product-center">
-          <h1>{{data.name_nom}}</h1>
-          <h2>Масштаб</h2>
-          <table class="size-table">
-            <tr>
-              <td>1:87</td>
-            </tr>
-          </table>
-          <h2>О товаре</h2>
-          <table class="size-table">
-            <tr>
-              <td>Тип</td>
-              <td>{{data.grupp_nom}}</td>
-            </tr>
-            <tr>
-              <td>Категория</td>
-              <td>{{data.product_type}}</td>
-            </tr>
+<!--    <ul class="navbar-nav ml-auto">-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" href="#"><i class="fas fa-user"></i> Вход / Регистрация</a>-->
+<!--      </li>-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" (click)="router.navigate(['/cart'])"><i class="fas fa-shopping-cart"></i> Корзина</a>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--<body>-->
+<!--  <div class="container">-->
+<!--    <main>-->
+<!--      <section class="product">-->
+<!--        &lt;!&ndash; Левая колонка: Изображение товара &ndash;&gt;-->
+<!--        <div class="product-column product-left">-->
+<!--          <img src="{{data.frontpic_nom}}">-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Центральная колонка: Таблица размеров и "О товаре" &ndash;&gt;-->
+<!--        <div class="product-column product-center">-->
+<!--          <h1>{{data.name_nom}}</h1>-->
+<!--          <h2>Масштаб</h2>-->
+<!--          <table class="size-table">-->
+<!--            <tr>-->
+<!--              <td>1:87</td>-->
+<!--            </tr>-->
+<!--          </table>-->
+<!--          <h2>О товаре</h2>-->
+<!--          <table class="size-table">-->
+<!--            <tr>-->
+<!--              <td>Тип</td>-->
+<!--              <td>{{data.grupp_nom}}</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td>Категория</td>-->
+<!--              <td>{{data.product_type}}</td>-->
+<!--            </tr>-->
 
-          </table>
-        </div>
-        <!-- Правая колонка: Цена и кнопка "Добавить в корзину" -->
-        <div class="payButtonContainer">
-          <div class="product-column product-right">
-            <div class="price">{{data.cash_nom}} ₽</div>
-            <div class="add-to-cart">
-              <button>Добавить в корзину</button>
-            </div>
-            <div class="payInOne">
-              <button (click)="Filter()">Купить в 1 клик</button>
-            </div>
+<!--          </table>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Правая колонка: Цена и кнопка "Добавить в корзину" &ndash;&gt;-->
+<!--        <div class="payButtonContainer">-->
+<!--          <div class="product-column product-right">-->
+<!--            <div class="price">{{data.cash_nom}} ₽</div>-->
+<!--            <div class="add-to-cart">-->
+<!--              <button>Добавить в корзину</button>-->
+<!--            </div>-->
+<!--            <div class="payInOne">-->
+<!--              <button (click)="Filter()">Купить в 1 клик</button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--      </section>-->
+<!--    </main>-->
+<!--  </div>-->
+<!--  <div class="recommendationListContainer">-->
+<!--    <div class="recommendationList" *ngIf="filteredNOM.length > 0">-->
+<!--      <div style="height: 250px; width: 200px" *ngFor="let product of filteredNOM" >-->
+<!--        <app-product-card style="color: black"  class="card" (click)="sendProductPageData(product.id)"-->
+<!--                          [image]="product.frontpic_nom"-->
+<!--                          [price]="product.cash_nom"-->
+<!--                          [description]="product.description"-->
+<!--                          [name]="product.name_nom"-->
+<!--                          [product]="product.podgrupp_nom"-->
+<!--                          [id] = "product.id"></app-product-card>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="descriptionContainer">-->
+<!--    <h3 >Описание</h3>-->
+<!--    <div class="description">-->
+<!--      {{data.description}}-->
+<!--    </div>-->
+<!--  </div>-->
+<!--<body>-->
+
+<app-header></app-header>
+<main >
+  <table id="main-table">
+    <tr>
+      <td width="40%" >
+        <div class="main-cart">
+          <div class="product-image">
+            <img [src]="data.frontpic_nom" alt="Product Image" />
           </div>
+          <div class="product-name">
+            {{data.name_nom}}
+          </div>
+          <table style="margin-left: 20px">
+            <tr>
+              <td class="left-mainInfo">
+                Категория
+              </td>
+              <td class="right-mainInfo">
+                {{data.podgrupp_nom}}
+              </td>
+            </tr>
+            <tr>
+              <td class="left-mainInfo">
+                Масштаб
+              </td>
+              <td class="right-mainInfo">
+                {{data.scale_nom}}
+              </td>
+            </tr>
+            <tr>
+              <td class="left-mainInfo">
+                Цена
+              </td>
+              <td class="right-mainInfo">
+                {{data.cash_nom}} ₽
+              </td>
+            </tr>
+          </table>
         </div>
-
-      </section>
-    </main>
-  </div>
-  <div class="recommendationListContainer">
-    <div class="recommendationList" *ngIf="filteredNOM.length > 0">
-      <div style="height: 250px; width: 200px" *ngFor="let product of filteredNOM" >
-        <app-product-card style="color: black"  class="card" (click)="sendProductPageData(product.id)"
-                          [image]="product.frontpic_nom"
-                          [price]="product.cash_nom"
-                          [description]="product.description"
-                          [name]="product.name_nom"
-                          [product]="product.podgrupp_nom"
-                          [id] = "product.id"></app-product-card>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="descriptionContainer">
-    <h3 >Описание</h3>
-    <div class="description">
-      {{data.description}}
-    </div>
-  </div>
-<body>
-
+      </td>
+      <td width="60%">
+        122313
+      </td>
+    </tr>
+  </table>
+</main>
