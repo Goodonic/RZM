@@ -68,6 +68,6 @@ export class GroupService {
 
   async  addGRUPP(name:any) {
     const docRef = await this.initBD.db.collection(this.collectionPath)
-    docRef.add({grupp: name})
+    return docRef.add({grupp: name})
   }
 }

@@ -33,6 +33,6 @@ export class ScaleService {
   }
   async  addScale(name:any) {
     const docRef = await this.initBD.db.collection(this.collectionPath)
-    docRef.add({product_scale: name})
+    return docRef.add({product_scale: name})
   }
 }

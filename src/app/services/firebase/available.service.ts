@@ -35,6 +35,6 @@ export class AvailableService {
 
   async  addAvailable(name:any) {
     const docRef = await this.initBD.db.collection(this.collectionPath)
-    docRef.add({name_available: name})
+    return docRef.add({name_available: name})
   }
 }

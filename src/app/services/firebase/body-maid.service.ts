@@ -36,6 +36,6 @@ export class BodyMaidService {
 
   async  addBodyMaid(name:any) {
     const docRef = await this.initBD.db.collection(this.collectionPath)
-    docRef.add({name_bodymaid: name})
+    return docRef.add({name_bodymaid: name})
   }
 }

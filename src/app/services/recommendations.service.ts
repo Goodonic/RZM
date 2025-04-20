@@ -35,6 +35,6 @@ export class RecommendationsService {
 
   async  addRecommendation(name:any) {
     const docRef = await this.initBD.db.collection(this.collectionPath)
-    docRef.add({recGroupName: name})
+    return docRef.add({recGroupName: name})
   }
 }

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import {ImgService} from '../services/firebase/img/img.service';
 import {FormControl, FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
-import {forkJoin, take} from 'rxjs';
+import {forkJoin, retry, take, timeout} from 'rxjs';
 import {PodgroupService} from '../services/firebase/podgroup.service';
 import {BodyMaidService} from '../services/firebase/body-maid.service';
 import {NameService} from '../services/firebase/name.service';
@@ -22,6 +22,7 @@ import {NomEditorComponent} from './dialog/nom-editor/nom-editor.component';
 import {EditTablesDialogComponent} from './dialog/edit-tables-dialog/edit-tables-dialog.component';
 import {RecommendationsService} from '../services/recommendations.service';
 import {LoadDBDialogComponent} from './dialog/load-db-dialog/load-db-dialog.component';
+
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
 /**
@@ -590,6 +591,101 @@ export class AdminComponent {
     })
   }
 
+ // async addDocument(name:string, switchParam:string){
+ //     switch (switchParam){
+ //      case "Тип ПС":
+ //        await this.addGroup(name)
+ //        break
+ //      case "Категория":
+ //        await this.addType(name)
+ //        break
+ //      case "Товар":
+ //        await this.addPodGroup(name)
+ //        break
+ //      case "Масштаб":
+ //        await this.addScale(name)
+ //        break
+ //      case "Группы рекомендаций":
+ //        await this.addRec(name)
+ //        break
+ //      case "Изготовитель":
+ //        await this.addBodyMaid(name)
+ //        break
+ //      case "Доступность":
+ //        await this.addAvailable(name)
+ //        break
+ //      case "Название":
+ //        await this.addName(name)
+ //        break
+ //    }
+ //  }
+
+  async addGroup(name:string){
+    return await this.grupp.addGRUPP(name)
+  }
+  async addType(name:string){
+    return  await this.typeServise.addType(name)
+  }
+  async addPodGroup(name:string){
+    return await this.podGrupp.addPodGroup(name)}
+  async addScale(name:string){
+    return await this.scale.addScale(name)}
+  async addRec(name:string){
+    return  await this.rec.addRecommendation(name)}
+  async addBodyMaid(name:string){
+    return await this.bodyMaid.addBodyMaid(name)}
+  async addAvailable(name:string){
+    return await this.available.addAvailable(name)}
+  async addName(name:string){
+    return await this.nameService.addName(name)}
+
+  async  addNotIncludeDocs(newNOM:any){
+    const tasks: Promise<any>[] = [];
+
+    if(this.allPodGroups?.[ newNOM.podgrupp_nom] == null){
+      this.allPodGroups = []
+       tasks.push(this.addPodGroup(newNOM.podgrupp_nom))
+      tasks.push(this.getAllPodGroups())
+    }
+    if(this.allGroups?.[ newNOM.grupp_nom] == null){
+      this.allGroups = []
+       tasks.push( this.addGroup(newNOM.grupp_nom))
+      tasks.push(this.getAllGroups())
+    }
+    if(this.allBodyMaid?.[ newNOM.bodymaid_nom] == null){
+      this.allBodyMaid = []
+       tasks.push( this.addBodyMaid(newNOM.bodymaid_nom))
+       tasks.push(this.getAllBodyMaid())
+    }
+    if(this.allName?.[ newNOM.name_nom] == null){
+      this.allName = []
+       tasks.push( this.addName(newNOM.name_nom))
+      tasks.push(this.getAllName())
+
+    }
+    if(this.allType?.[ newNOM.product_type] == null){
+      this.allType = []
+       tasks.push( this.addType(newNOM.product_type))
+      tasks.push(this.getAllType())
+    }
+    if(this.allScale?.[ newNOM.scale_nom] == null){
+      this.allScale = []
+       tasks.push( this.addScale(newNOM.scale_nom))
+      tasks.push(this.getAllScale())
+    }
+    if(this.allRecGroup?.[ newNOM.recommendation_nom] == null){
+      this.allRecGroup = []
+       tasks.push( this.addRec(newNOM.recommendation_nom))
+      tasks.push(this.getAllRec())
+    }
+    if(this.allAvailable?.[ newNOM.available_nom] == null){
+      this.allAvailable = []
+       tasks.push( this.addAvailable(newNOM.available_nom))
+      tasks.push(this.getAllAvailable())
+    }
+    return Promise.all(tasks)
+  }
+
   openLoadDBDialog(){
     const dialogRef = this.dialog.open(LoadDBDialogComponent, {
       width: '90%',
@@ -597,7 +693,7 @@ export class AdminComponent {
       height: '80%'
     });
 
-    dialogRef.afterClosed().subscribe(result=>{
+    dialogRef.afterClosed().subscribe(async result=>{
       console.log(result)
 
       for(let i = 0; i < result.length; i++){
@@ -614,13 +710,15 @@ export class AdminComponent {
           description:result[i]["Описание"],
           recommendation_nom:'Стандарт',
         }
-        this.addNewNOM(newNOM)
+
+
+          this.addNotIncludeDocs(newNOM).then(()=>(
+              this.addNewNOM(newNOM)
+          ))
+
+
+
       }
-
-
-
-
-
       const currentUrl = this.router.url;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         // Возвращение на исходный маршрут
@@ -628,6 +726,7 @@ export class AdminComponent {
       });
 
     })
+
   }
 
   protected readonly Object = Object;

@@ -38,6 +38,6 @@ export class TypeService {
 
   async  addType(name:any) {
     const docRef = await this.initBD.db.collection(this.collectionPath)
-    docRef.add({product_type: name})
+    return  docRef.add({product_type: name})
   }
 }
