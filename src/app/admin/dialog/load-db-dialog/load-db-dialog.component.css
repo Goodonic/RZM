@@ -1,0 +1,9 @@
+.invalid-photo input[type="file"] {
+  border: 1px solid red;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.invalid {
+  background-color: #fff1f1;
+}

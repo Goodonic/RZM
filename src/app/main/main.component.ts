@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HeaderComponent} from '../header/header.component';
 import {ProductCardComponent} from './components/product-card/product-card.component';
 import {GroupService} from '../services/firebase/group.service';
 import {CommonModule} from '@angular/common';
-import {filter, forkJoin, take} from 'rxjs';
+import {forkJoin, take} from 'rxjs';
 import {Router} from '@angular/router';
 import {InitBDService} from '../services/firebase/init/init-bd.service';
 import {NOMService} from '../services/firebase/nom.service';
@@ -16,7 +16,7 @@ import {AvailableService} from '../services/firebase/available.service';
 import {ScaleService} from '../services/firebase/scale.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductPageService} from './components/product-page/services/product-page.service';
-import { FormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -50,6 +50,17 @@ export class MainComponent {
 
   searchBarHelpList: string[] = [];
   searchBarText: string = ""
+
+  dropdownItems = [
+    { title: 'Тип ПС', options: [''] },
+    { title: 'Категория', options: [''] },
+    { title: 'Товар', options: [''] },
+    { title: 'Масштаб', options: [''] },
+    { title: 'Производитель', options: [''] },
+    { title: 'Доступность', options: [''] }
+  ];
+
+  isOpenList: boolean[] = [];
   constructor(public router: Router,
               private initBD: InitBDService,
               private nom: NOMService,
@@ -66,6 +77,7 @@ export class MainComponent {
   }
 
   ngOnInit() {
+    this.isOpenList = this.dropdownItems.map(() => false);
 
     this.getAllNOMId().then(() => {
       this.allNOMID.forEach((id) => {
@@ -122,8 +134,8 @@ export class MainComponent {
           // console.log(doc.id, '=>', doc.data());
           // console.log(this.toJSON(doc).grupp)
           let groupName = this.toJSON(doc).grupp
-          let groupId = doc.id
-          this.allGroups[groupName] = groupId;
+          this.allGroups[groupName] = doc.id;
+          this.dropdownItems[0].options =  Object.keys(this.allGroups)
         }
       );
     })
@@ -138,6 +150,7 @@ export class MainComponent {
           let groupName = this.toJSON(doc).name_podgrupp
           let groupId = doc.id
           this.allPodGroups[groupName] = groupId;
+          this.dropdownItems[2].options =  Object.keys(this.allPodGroups)
         }
       );
     })
@@ -152,6 +165,7 @@ export class MainComponent {
           let bodyMaidName = this.toJSON(doc).name_bodymaid
           let bodyMaidId = doc.id
           this.allBodyMaid[bodyMaidName] = bodyMaidId;
+          this.dropdownItems[4].options =  Object.keys(this.allBodyMaid)
         }
       );
     })
@@ -175,8 +189,8 @@ export class MainComponent {
 
       snapshot.forEach((doc) => {
           let typeName = this.toJSON(doc).product_type
-          let typeId = doc.id
-          this.allType[typeName] = typeId;
+        this.allType[typeName] = doc.id;
+        this.dropdownItems[1].options =  Object.keys(this.allType)
         }
       );
     })
@@ -186,8 +200,8 @@ export class MainComponent {
 
       snapshot.forEach((doc) => {
           let availableName = this.toJSON(doc).name_available
-          let availableId = doc.id
-          this.allAvailable[availableName] = availableId;
+        this.allAvailable[availableName] = doc.id;
+        this.dropdownItems[5].options =  Object.keys(this.allAvailable)
         }
       );
     })
@@ -200,6 +214,7 @@ export class MainComponent {
           let scaleName = this.toJSON(doc).product_scale
           let scaleId = doc.id
           this.allScale[scaleName] = scaleId;
+          this.dropdownItems[3].options =  Object.keys(this.allScale)
         }
       );
     })
@@ -404,6 +419,10 @@ export class MainComponent {
 
   addToCart(product:any){
     localStorage.setItem(product.id, JSON.stringify(product))
+  }
+
+  toggleDropdown(index: number) {
+    this.isOpenList[index] = !this.isOpenList[index];
   }
 
   protected readonly Object = Object;

@@ -1,66 +1,103 @@
 <app-header></app-header>
 <div class="container">
+
+
+
   <!-- Боковая панель -->
   <aside class="sidebar">
     <h2>Фильтры</h2>
     <div class="filter-section">
       <h3>Поиск</h3>
       <div class="searchBarContainer"  >
-        <input #searchBox class="form-control mr-sm-2 searchBar" [(ngModel)]="searchBarText" (ngModelChange)="searchBarHelper($event)"  (keyup.enter)="filterObj.name_nom = searchBox.value; Filter2()" type="search" list="options" placeholder="Найти на РЖМ" aria-label="Search">
+        <input #searchBox class="form-control mr-sm-2 searchBar" [(ngModel)]="searchBarText" (ngModelChange)="searchBarHelper($event)"  (keyup.enter)="filterObj.name_nom = searchBox.value; Filter2()" type="search" list="options" placeholder="Найти" aria-label="Search">
         <datalist id="options">
           <option *ngFor="let product of searchBarHelpList" value="{{product}}">
         </datalist>
         <button type="submit" class="btn btn-outline-success my-2 my-sm-0 searchBarBtn" (click)="filterObj.name_nom = searchBox.value; Filter2()">Найти</button>
       </div>
     </div>
-    <div class="filter-section">
-      <h3>Тип ПС</h3>
-      <ul>
-        <li *ngFor="let group of Object.keys(allGroups)"><label><input  (change)="onCheckboxChangeGroup($event, group)" type="checkbox" name="group" > {{ group }}</label></li>
-      </ul>
+
+    <div style="margin: 0; padding: 0; border: 0;" >
+      <div class="filter-section" *ngFor="let item of dropdownItems; let i = index">
+        <div class="dropdown">
+          <button class="dropdown-toggle" (click)="toggleDropdown(i)">
+            {{ item.title }}
+          </button>
+
+          <div class="dropdown-content" [ngClass]="{ 'show': isOpenList[i] }">
+            <label *ngFor="let option of item.options">
+              <input type="checkbox" name="option-{{ i }}" [value]="option"> {{ option }}
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="filter-section">
-      <h3>Категория</h3>
-      <ul>
-        <li *ngFor="let podGroup of Object.keys(allType)"><label><input (change)="onCheckboxChangeType($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>
-      </ul>
-    </div>
-    <div class="filter-section">
-      <h3>Товар</h3>
-      <ul>
-        <li *ngFor="let podGroup of Object.keys(allPodGroups)"><label><input (change)="onCheckboxChangePodGroup($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>
-      </ul>
-    </div>
-    <div class="filter-section">
-      <h3>Масштаб</h3>
-      <ul>
-        <li *ngFor="let podGroup of Object.keys(allScale)"><label><input type="checkbox" name="podgroup"> {{ podGroup }}</label></li>
-      </ul>
-    </div>
-    <div class="filter-section">
-      <h3>Производитель</h3>
-      <ul>
-        <li *ngFor="let podGroup of Object.keys(allBodyMaid)"><label><input (change)="onCheckboxChangeBodyMaid($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>
-      </ul>
-    </div>
-    <div class="filter-section">
-      <h3>Доступность</h3>
-      <ul>
-        <li *ngFor="let podGroup of Object.keys(allAvailable)"><label><input (change)="onCheckboxAvailable($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>
-      </ul>
-    </div>
+
+<!--    <div class="filter-section">-->
+
+<!--      <div *ngFor="let item of dropdownItems; let i = index" class="dropdown">-->
+<!--        <button class="dropdown-toggle" (click)="toggleDropdown(i)">-->
+<!--          {{ item.title }}-->
+<!--        </button>-->
+
+<!--        <div class="dropdown-content" [ngClass]="{ 'show': isOpenList[i] }">-->
+<!--          <label *ngFor="let option of item.options">-->
+<!--            <input type="radio" name="option-{{ i }}" [value]="option"> {{ option }}-->
+<!--          </label>-->
+<!--        </div>-->
+<!--      </div>-->
+
+
+<!--      <h3>Тип ПС</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let group of Object.keys(allGroups)"><label><input  (change)="onCheckboxChangeGroup($event, group)" type="checkbox" name="group" > {{ group }}</label></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <div class="filter-section">-->
+<!--      <h3>Категория</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let podGroup of Object.keys(allType)"><label><input (change)="onCheckboxChangeType($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <div class="filter-section">-->
+<!--      <h3>Товар</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let podGroup of Object.keys(allPodGroups)"><label><input (change)="onCheckboxChangePodGroup($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <div class="filter-section">-->
+<!--      <h3>Масштаб</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let podGroup of Object.keys(allScale)"><label><input type="checkbox" name="podgroup"> {{ podGroup }}</label></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <div class="filter-section">-->
+<!--      <h3>Производитель</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let podGroup of Object.keys(allBodyMaid)"><label><input (change)="onCheckboxChangeBodyMaid($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <div class="filter-section">-->
+<!--      <h3>Доступность</h3>-->
+<!--      <ul>-->
+<!--        <li *ngFor="let podGroup of Object.keys(allAvailable)"><label><input (change)="onCheckboxAvailable($event, podGroup)" type="checkbox" name="podgroup"> {{ podGroup }}</label></li>-->
+<!--      </ul>-->
+<!--    </div>-->
   </aside>
   <!--Панель тваров-->
 
-  <main class="product-table">
-    <div style=" max-width: 20%;" *ngFor="let product of filteredNOM">
-      <app-product-card (click)="sendProductPageData(product.id)" class=""
-        [image]="product.frontpic_nom"
-        [price]="product.cash_nom"
-        [description]="product.description"
-        [name]="product.name_nom"
-        [product]="product.podgrupp_nom"
-        [id]="product.id"></app-product-card>
+  <main>
+    <div class="product-table">
+      <div style=" max-width: 18%;" *ngFor="let product of filteredNOM">
+        <app-product-card (click)="sendProductPageData(product.id)" class=""
+                          [image]="product.frontpic_nom"
+                          [price]="product.cash_nom"
+                          [description]="product.description"
+                          [name]="product.name_nom"
+                          [product]="product.podgrupp_nom"
+                          [id]="product.id"></app-product-card>
+      </div>
     </div>
+
   </main>
 </div>

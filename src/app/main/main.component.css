@@ -1,10 +1,17 @@
 /* Общие стили */
+:host {
+  overflow: hidden;
+  height: 100%; /* или 100vh, если компонент растягивается на весь экран */
+  display: block;
+}
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
   display: flex;
+  overflow: hidden;
+  height: 100vh;
 }
 .header{
   position: fixed;
@@ -28,26 +35,26 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 .container {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 280px); /* Учитываем ширину sidebar */
-  height: 100vh;
+  width: 100%; /* Учитываем ширину sidebar */
+  height: 100%;
   margin-left: 280px; /* Чтобы контейнер не заходил на aside */
   padding: 0;
-  padding-top: 50px;
+
   box-sizing: border-box;
 }
 
 /* Боковая панель */
 .sidebar {
   width: 280px; /* Фиксированная ширина */
-  background-color: #b56969;
+  background-color: #ffffff;
   padding: 20px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px; /* Убираем скругление, чтобы примыкало */
-  height: 90vh;
+  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 25px; /* Убираем скругление, чтобы примыкало */
+  height: 70vh;
   overflow-y: auto;
   position: fixed;
-  left: 0;
-  top: 8lvh;
+  left: 20px;
+  top: 100px;
   bottom: 0;
 }
 
@@ -66,55 +73,39 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 
 .sidebar h2 {
   font-size: 22px;
-  color: #fff;
+  color: #000000;
 }
+
 
 .filter-section {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+
 }
 
-.filter-section h3 {
-  font-size: 16px;
-  color: #f8f8f8;
-  margin-bottom: 8px;
-}
-
-.filter-section ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.filter-section ul li {
-  margin-bottom: 8px;
-}
-
-.filter-section ul li label {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #ffffff;
-}
-
-.filter-section ul li input {
-  margin-right: 10px;
-}
 
 /* Основная область товаров */
 .product-table {
 
   /*background-color: #ffffff;*/
-  padding: 20px;
-  padding-bottom: 0;
+  padding: 0;
   /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-  border-radius: 8px;
   overflow-y: auto;
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* Internet Explorer/Edge */
   max-height: 100vh;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   row-gap: 10px;
   width: 100%;
+  margin-left: 40px;
+  height: 100%;
 
+
+}
+
+.product-table::-webkit-scrollbar {
+  display: none;               /* Chrome, Safari */
 }
 
 .card {
@@ -133,10 +124,83 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 }
 
 .searchBar{
-  max-width: 70%;
+  max-width: 60%;
+  background-color: rgba(142, 142, 142, 0.63);
+  border-radius: 16px;
+  height: 55px;
 }
 .searchBarBtn{
   background-color: #ee6c0d;
   border-color: #d75e0e;
   color: white;
+  height: 55px;
+  width: 40%;
+}
+
+
+/*Выпадающие списки с radio*/
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  border: none;
+  border-radius: 20px;
+  background: #ffffff;
+  font-size: 16px;
+  margin-bottom: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23999' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+}
+
+.dropdown-toggle {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 20px;
+  background-color: #e9e9e9;
+  font-size: 16px;
+  margin-bottom: 0px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23999' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+  color: #000000;
+  cursor: pointer;
+
+}
+
+.dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  position: relative;
+  background-color: #e9e9e9;
+  min-width: 200px;
+  padding: 0 5px;
+  z-index: 1;
+  border-radius: 16px;
+
+}
+
+.dropdown-content.show {
+  max-height: 500px;
+  padding: 10px;
+  margin-top: 15px;
+
+}
+
+.dropdown-content label {
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
 }

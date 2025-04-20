@@ -1,5 +1,6 @@
 <div>
   <button (click)="openEditTableDialog()">Редактирование таблиц спецификаий </button>
+  <button (click)="openLoadDBDialog()">Добавить данные из XLSX </button>
 </div>
 <div class="addTableContainer">
   <table class="addProductTable">
@@ -150,8 +151,11 @@
     <tr>
       <th>ID</th>
       <th>Название</th>
+<!--      group-->
       <th>Тип ПС</th>
+<!--      type-->
       <th>Категория</th>
+<!--      podgroup-->
       <th>Товар</th>
       <th>Масштаб</th>
       <th>Группа рек</th>

@@ -21,6 +21,7 @@ import {AddDescriptionDialogComponent} from './dialog/add-description-dialog/add
 import {NomEditorComponent} from './dialog/nom-editor/nom-editor.component';
 import {EditTablesDialogComponent} from './dialog/edit-tables-dialog/edit-tables-dialog.component';
 import {RecommendationsService} from '../services/recommendations.service';
+import {LoadDBDialogComponent} from './dialog/load-db-dialog/load-db-dialog.component';
 
 let collectionPath:string = 'rootrecord/PRIMARY/NOM';
 /**
@@ -153,11 +154,7 @@ export class AdminComponent {
     })
    }
 
-  /**
-   * Retrieves all groups and their IDs.
-   *
-   * @return {Promise} A promise that resolves with an object containing group names as keys and group IDs as values.
-   */
+
   getAllGroups(){
     return this.grupp.getAllGRUPPID().then((snapshot)=>{
 
@@ -413,7 +410,7 @@ export class AdminComponent {
   // }
 
   addNewNOM(NOM:any){
-    console.log(this.allPodGroups[NOM.podgrupp_nom])
+    console.log(this.allPodGroups[NOM.podgrupp_nom],NOM.podgrupp_nom)
     if (
       !(this.allPodGroups?.[NOM.podgrupp_nom] == null ||
       this.allGroups?.[NOM.grupp_nom] == null ||
@@ -442,6 +439,16 @@ export class AdminComponent {
       });
     }
     else {
+      console.log(NOM)
+      console.log(this.allPodGroups?.[NOM.podgrupp_nom] == null,
+        this.allGroups?.[NOM.grupp_nom] == null ,
+        this.allBodyMaid?.[NOM.bodymaid_nom] == null ,
+        this.allName?.[NOM.name_nom] == null ,
+        this.allType?.[NOM.product_type] == null ,
+        this.allScale?.[NOM.scale_nom] == null ,
+        this.allAvailable?.[NOM.available_nom] == null ,
+        this.allRecGroup?.[NOM.recommendation_nom] == null)
+      console.log(this.allType, NOM.product_type)
       alert("Для добавления товара, нужно заполнить все пункты")
     }
   }
@@ -579,44 +586,47 @@ export class AdminComponent {
         // Возвращение на исходный маршрут
         this.router.navigate([currentUrl]);
       });
-      /*if(result.mode == "delete"){
-        console.log(result.id)
-        this.nom.deleteNom(result.id)
-        const currentUrl = this.router.url;
-        // Переход на временный маршрут, не изменяя URL (skipLocationChange)
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          // Возвращение на исходный маршрут
-          this.router.navigate([currentUrl]);
-        });
-      }
-      if (result && result!="delete"){
-        console.log(result)
-        if (
-          !(this.allPodGroups?.[ result.data.podgrupp_nom] == null ||
-            this.allGroups?.[ result.data.grupp_nom] == null ||
-            this.allBodyMaid?.[ result.data.bodymaid_nom] == null ||
-            this.allName?.[ result.data.name_nom] == null ||
-            this.allType?.[ result.data.product_type] == null ||
-            this.allScale?.[ result.data.scale_nom] == null ||
-            this.allAvailable?.[ result.data.available_nom] == null)
-        ){
-          result.data.podgrupp_nom = '/rootrecord/PRIMARY/PODGRUPP/'+this.allPodGroups[ result.data.podgrupp_nom]
-          result.data.grupp_nom = '/rootrecord/PRIMARY/GRUPP/'+this.allGroups[ result.data.grupp_nom]
-          result.data.available_nom = '/rootrecord/PRIMARY/AVAILABLE/'+this.allAvailable[ result.data.available_nom]
-          result.data.bodymaid_nom = '/rootrecord/PRIMARY/BODYMAID/'+this.allBodyMaid[ result.data.bodymaid_nom]
-          result.data.name_nom = '/rootrecord/PRIMARY/NAME/'+this.allName[ result.data.name_nom]
-          result.data.product_type = '/rootrecord/PRIMARY/PRODUCTTYPE/'+this.allType[ result.data.product_type]
-          result.data.scale_nom = '/rootrecord/PRIMARY/SCALE/'+this.allScale[ result.data.scale_nom]
 
-          const currentUrl = this.router.url;
-          // Переход на временный маршрут, не изменяя URL (skipLocationChange)
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            // Возвращение на исходный маршрут
-            this.router.navigate([currentUrl]);
-          });
+    })
+  }
+
+  openLoadDBDialog(){
+    const dialogRef = this.dialog.open(LoadDBDialogComponent, {
+      width: '90%',
+      maxWidth: 'none',
+      height: '80%'
+    });
+
+    dialogRef.afterClosed().subscribe(result=>{
+      console.log(result)
+
+      for(let i = 0; i < result.length; i++){
+        let newNOM ={
+          available_nom: result[i]["in_magaz"] ? "В наличии" : "Под заказ",
+          bodymaid_nom: result[i]["Изготовитель"],
+          cash_nom: result[i]["cash_nom"],
+          frontpic_nom: [result[i]["Фото"]],
+          grupp_nom: result[i]["Тип ПС"],
+          name_nom: result[i]["Название"],
+          podgrupp_nom: result[i]["Товар"],
+          scale_nom:result[i]["Масштаб"],
+          product_type:result[i]["Категория"],
+          description:result[i]["Описание"],
+          recommendation_nom:'Стандарт',
         }
-        this.nom.updateNom(result.id, result.data)
-      }*/
+        this.addNewNOM(newNOM)
+      }
+
+
+
+
+
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        // Возвращение на исходный маршрут
+        this.router.navigate([currentUrl]);
+      });
+
     })
   }
 
