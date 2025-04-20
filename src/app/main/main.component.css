@@ -32,10 +32,10 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 }
 
 /* Контейнер */
-.container {
+.container2 {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Учитываем ширину sidebar */
+  width: calc(100% - 280px); /* Учитываем ширину sidebar */
   height: 100%;
   margin-left: 280px; /* Чтобы контейнер не заходил на aside */
   padding: 0;

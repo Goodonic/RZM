@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container">
+<div class="container2">
 
 
 
@@ -86,9 +86,9 @@
   </aside>
   <!--Панель тваров-->
 
-  <main>
+  <main style="width: 100%; margin-right: 0">
     <div class="product-table">
-      <div style=" max-width: 18%;" *ngFor="let product of filteredNOM">
+      <div style=" width: 18%;" *ngFor="let product of filteredNOM">
         <app-product-card (click)="sendProductPageData(product.id)" class=""
                           [image]="product.frontpic_nom"
                           [price]="product.cash_nom"
